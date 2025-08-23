@@ -8,6 +8,11 @@
   {
     #region Public consts
     /// <summary>
+    /// Fracciones por defecto por segundo.
+    /// </summary>
+    public const int DefaultFractionsPerSecond = 1000;
+
+    /// <summary>
     /// Número de ticks por milisegundo.
     /// </summary>
     public const long TicksMillisecond = 10000;
