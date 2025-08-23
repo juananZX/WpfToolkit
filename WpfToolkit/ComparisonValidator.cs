@@ -3,7 +3,7 @@
   public class ComparisonValidator : BaseValidator
   {
     #region Dependency property
-    public static readonly DependencyProperty ComparisonOperatorProperty = DependencyProperty.Register(nameof(ComparisonOperator), typeof(ComparisonOperatorEnum), typeof(ComparisonValidator), new PropertyMetadata(ComparisonOperatorEnum.Equal, OnPropertyChanged));
+    public static readonly DependencyProperty ComparisonOperatorProperty = DependencyProperty.Register(nameof(ComparisonOperator), typeof(ComparisonOperator), typeof(ComparisonValidator), new PropertyMetadata(ComparisonOperator.Equal, OnPropertyChanged));
 
     public static readonly DependencyProperty Field2Property = DependencyProperty.Register(nameof(Field2), typeof(object), typeof(ComparisonValidator), new PropertyMetadata(null, OnPropertyChanged));
 
@@ -15,9 +15,9 @@
     /// Gets or sets the comparison operator.
     /// Obtiene o establece el operador de la comparación.
     /// </summary>
-    public ComparisonOperatorEnum ComparisonOperator
+    public ComparisonOperator ComparisonOperator
     {
-      get => (ComparisonOperatorEnum)GetValue(ComparisonOperatorProperty);
+      get => (ComparisonOperator)GetValue(ComparisonOperatorProperty);
       set => SetValue(ComparisonOperatorProperty, value);
     }
 

@@ -149,7 +149,7 @@ namespace System.Windows.Controls
     /// If the validation is correct, true; otherwise, false.
     /// Si la validación es correcta true, en caso contrario false.
     /// </returns>
-    protected bool ValidateComparison(object field1, object field2, ComparisonOperatorEnum comparisonOperator, string type, bool isMandatory)
+    protected bool ValidateComparison(object field1, object field2, ComparisonOperator comparisonOperator, string type, bool isMandatory)
     {
       bool isEmpty = string.IsNullOrEmpty($"{field1}") || string.IsNullOrEmpty($"{field2}");
 
@@ -178,22 +178,22 @@ namespace System.Windows.Controls
 
         switch (comparisonOperator)
         {
-          case ComparisonOperatorEnum.Equal:
+          case ComparisonOperator.Equal:
             isValid = comparisonResult == 0;
             break;
-          case ComparisonOperatorEnum.EqualOrGraterThan:
+          case ComparisonOperator.EqualOrGraterThan:
             isValid = comparisonResult >= 0;
             break;
-          case ComparisonOperatorEnum.EqualOrLessThan:
+          case ComparisonOperator.EqualOrLessThan:
             isValid = comparisonResult <= 0;
             break;
-          case ComparisonOperatorEnum.GreaterThan:
+          case ComparisonOperator.GreaterThan:
             isValid = comparisonResult > 0;
             break;
-          case ComparisonOperatorEnum.LessThan:
+          case ComparisonOperator.LessThan:
             isValid = comparisonResult < 0;
             break;
-          case ComparisonOperatorEnum.NotEqual:
+          case ComparisonOperator.NotEqual:
             isValid = comparisonResult != 0;
             break;
           default:

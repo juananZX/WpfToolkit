@@ -1,6 +1,6 @@
 ﻿namespace System.Windows.Controls
 {
-    public enum ComparisonOperatorEnum
+    public enum ComparisonOperator
     {
         /// <summary>
         /// Igual.
