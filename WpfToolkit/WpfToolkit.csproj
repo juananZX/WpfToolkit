@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>System.Windows.Controls</RootNamespace>
+    <RootNamespace>Espamatica.WpfToolkit</RootNamespace>
     <AssemblyName>Espamatica.WpfToolkit</AssemblyName>
   </PropertyGroup>
 

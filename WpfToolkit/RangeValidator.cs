@@ -1,4 +1,6 @@
-﻿namespace System.Windows.Controls
+﻿using System.Windows;
+
+namespace Espamatica.WpfToolkit
 {
   public class RangeValidator : BaseValidator
   {

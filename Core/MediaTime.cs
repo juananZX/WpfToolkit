@@ -1,4 +1,4 @@
-﻿namespace Core
+﻿namespace Espamatica.Core
 {
   /// <summary>
   /// Estructura para manejo de tiempos multimedia.

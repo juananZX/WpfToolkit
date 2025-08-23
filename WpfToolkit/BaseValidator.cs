@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace System.Windows.Controls
+namespace Espamatica.WpfToolkit
 {
   public abstract class BaseValidator : TextBlock, INotifyPropertyChanged
   {

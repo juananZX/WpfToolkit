@@ -1,4 +1,4 @@
-﻿namespace Core
+﻿namespace Espamatica.Core
 {
   /// <summary>
   /// Fraction rounding mode.
