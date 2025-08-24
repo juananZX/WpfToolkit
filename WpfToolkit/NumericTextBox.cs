@@ -10,13 +10,14 @@ namespace Espamatica.WpfToolkit
     public NumericTextBox()
     {
       PreviewKeyDown += NumericTextBox_PreviewKeyDown;
+      PreviewTextInput += NumericTextBox_PreviewTextInput;
       TextChanged += NumericTextBox_TextChanged;
     }
     #endregion
 
     #region Public properties
     /// <summary>
-    /// Obtiene el número de decimales.
+    /// Obtiene o establece el número de decimales.
     /// </summary>
     public byte Decimals { get; set; }
 
@@ -74,6 +75,7 @@ namespace Espamatica.WpfToolkit
     private static bool IsOtherKey(Key key)
     {
       return key == Key.OemComma || key == Key.Decimal ||
+        key == Key.OemPeriod ||
         key == Key.Subtract || key == Key.Add ||
         key == Key.OemMinus || key == Key.OemPlus;
     }
@@ -96,19 +98,30 @@ namespace Espamatica.WpfToolkit
       if (IsControlKey(e.Key)) return;
       e.Handled = !IsNumericKey(e.Key) && !IsOtherKey(e.Key);
       if (e.Handled) return;
+    }
+
+    private void NumericTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+      char comma = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator[0];
+      string value = Text.Insert(SelectionStart, e.Text.Replace('.', comma).Replace(',', comma));
       
-      if (e.Key == Key.OemComma || e.Key == Key.Decimal)
-      {
-        if (Decimals < 1 || Text.Contains('.') || Text.Contains(','))
-          e.Handled = true;
-      }
+      e.Handled = (decimal.TryParse(value, CultureInfo.CurrentUICulture, out decimal valD) == false)
+        || valD < MinValue || valD > MaxValue;
+      if (e.Handled) return;
+      
+      string[] parts = value.Split(comma);
+      e.Handled = parts.Length > 1 && parts[1].Length > Decimals;
     }
 
     private void NumericTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
+      int selStart = SelectionStart;
       char comma = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator[0];
-      SetCurrentValue(TextProperty, Text.Replace('.', comma).Replace(',', comma));
+      string text = decimal.TryParse(Text.Replace('.', comma).Replace(',', comma), out _) ? Text.Replace('.', comma).Replace(',', comma) : string.Empty;
+      SetCurrentValue(TextProperty, text);
       SetValues();
+      SelectionStart = selStart;
+      e.Handled = true;
     }
     #endregion
   }
