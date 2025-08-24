@@ -1,6 +1,7 @@
 ﻿namespace Espamatica.Core
 {
   /// <summary>
+  /// Structure for multimedia time management.
   /// Estructura para manejo de tiempos multimedia.
   /// </summary>
   /// <see cref="https://espamatica.com/mediatime/"/>
@@ -8,51 +9,61 @@
   {
     #region Public consts
     /// <summary>
+    /// Default fractions per second.
     /// Fracciones por defecto por segundo.
     /// </summary>
     public const int DefaultFractionsPerSecond = 1000;
 
     /// <summary>
+    /// Number of ticks per millisecond.
     /// Número de ticks por milisegundo.
     /// </summary>
     public const long TicksMillisecond = 10000;
 
     /// <summary>
+    /// Number of milliseconds per second.
     /// Número de milisegundos por segundo.
     /// </summary>
     public const long MillisecondsSecond = 1000;
 
     /// <summary>
+    /// Number of seconds per minute.
     /// Número de segundos por minuto.
     /// </summary>
     public const long SecondsMinute = 60;
 
     /// <summary>
+    /// Number of minutes per hour.
     /// Número de minutos por hora.
     /// </summary>
     public const long MinutesHour = 60;
 
     /// <summary>
+    /// Number of hours per day.
     /// Número de horas por día.
     /// </summary>
     public const long HoursDay = 24;
 
     /// <summary>
+    /// Number of ticks per second.
     /// Número de ticks por segundo.
     /// </summary>
     public const long TicksSecond = TicksMillisecond * MillisecondsSecond;
 
     /// <summary>
+    /// Number of ticks per minute.
     /// Número de ticks por minuto.
     /// </summary>
     public const long TicksMinute = TicksSecond * SecondsMinute;
 
     /// <summary>
+    /// Number of ticks per hour.
     /// Número de ticks por hora.
     /// </summary>
     public const long TicksHour = TicksMinute * MinutesHour;
 
     /// <summary>
+    /// Number of ticks per day.
     /// Número de ticks por día.
     /// </summary>
     public const long TicksDay = TicksHour * HoursDay;
@@ -60,61 +71,73 @@
 
     #region Private fields
     /// <summary>
+    /// Control field for the Days property.
     /// Campo de control para la propiedad Days.
     /// </summary>
     private int days;
 
     /// <summary>
+    /// Control field for the DigitPerFraction property.
     /// Campo de control para la propiedad DigitPerFraction.
     /// </summary>
     private int digitPerFraction;
 
     /// <summary>
+    /// Control field for the Fractions property.
     /// Campo de control para la propiedad Fractions.
     /// </summary>
     private double fractions;
 
     /// <summary>
+    /// Control field for the FractionsPerSecond property.
     /// Campo de control para la propiedad FractionsPerSecond.
     /// </summary>
     private int fractionsPerSecond;
 
     /// <summary>
+    /// Control field for the Hours property.
     /// Campo de control para la propiedad Hours.
     /// </summary>
     private int hours;
 
     /// <summary>
+    /// Control field for the Milliseconds property.
     /// Campo de control para la propiedad Milliseconds.
     /// </summary>
     private int milliseconds;
 
     /// <summary>
+    /// Control field for the MillisecondsPerFraction property.
     /// Campo de control para la propiedad MillisecondsPerFraction.
     /// </summary>
     private double millisecondsPerFraction;
 
     /// <summary>
+    /// Control field for the Minutes property.
     /// Campo de control para la propiedad Minutes.
     /// </summary>
     private int minutes;
 
     /// <summary>
+    /// Control field for the RoundMode property.
     /// Campo de control para la propiedad RoundMode.
     /// </summary>
     private FractionRoundMode roundMode;
 
     /// <summary>
+    /// Control field for the Seconds property.
     /// Campo de control para la propiedad Seconds.
     /// </summary>
     private int seconds;
 
     /// <summary>
+    /// Control field for the Ticks property.
     /// Campo de control para la propiedad Ticks.
     /// </summary>
     private int ticks;
 
     /// <summary>
+    /// Control field for the Ticks property.
     /// Campo de control para la propiedad Ticks.
     /// </summary>
     private long totalTicks;
@@ -122,10 +145,17 @@
 
     #region Constructors
     /// <summary>
+    /// Initializes a new instance of the MediaTime structure.
     /// Inicializa una nueva instancia de la estructura MediaTime.
     /// </summary>
-    /// <param name="time">Tiempo en ticks.</param>
-    /// <param name="fractionsPerSecond">Fracciones por segundo (entre 1 y 1000).</param>
+    /// <param name="time">
+    /// Time in ticks.
+    /// Tiempo en ticks.
+    /// </param>
+    /// <param name="fractionsPerSecond">
+    /// Fractions per second (between 1 and 1000).
+    /// Fracciones por segundo (entre 1 y 1000).
+    /// </param>
     public MediaTime(long time, int fractionsPerSecond)
     {
       if (fractionsPerSecond < 1 || fractionsPerSecond > MillisecondsSecond)
@@ -151,6 +181,7 @@
 
     #region Public properties
     /// <summary>
+    /// Gets or sets the days.
     /// Obtiene o establece los días.
     /// </summary>
     public int Days
@@ -168,6 +199,7 @@
     }
 
     /// <summary>
+    /// Gets the number of digits used to represent fractions.
     /// Obtiene el número de dígitos usados para representar las fracciones.
     /// </summary>
     public int DigitPerFraction
@@ -177,6 +209,7 @@
     }
 
     /// <summary>
+    /// Gets or sets fractions.
     /// Obtiene o establece las fracciones.
     /// </summary>
     public double Fractions
@@ -190,6 +223,7 @@
     }
 
     /// <summary>
+    /// Gets or sets the number of fractions per second.
     /// Obtiene o establece el número de fracciones por segundo.
     /// </summary>
     public int FractionsPerSeconds
@@ -210,6 +244,7 @@
     }
 
     /// <summary>
+    /// Gets or sets the time.
     /// Obtiene o establece las horas.
     /// </summary>
     public int Hours
@@ -227,6 +262,7 @@
     }
 
     /// <summary>
+    /// Gets or sets the milliseconds.
     /// Obtiene o establece los milisegundos.
     /// </summary>
     public int Milliseconds
@@ -244,7 +280,7 @@
     }
 
     /// <summary>
-    /// Obtiene el número de milisegundos por fracción.
+    /// Gets the number of milliseconds per fraction.
     /// </summary>
     public double MillisecondsPerFraction
     {
@@ -253,6 +289,7 @@
     }
 
     /// <summary>
+    /// Gets or sets the minutes.
     /// Obtiene o establece los minutos.
     /// </summary>
     public int Minutes
@@ -270,6 +307,7 @@
     }
 
     /// <summary>
+    /// Gets or sets the mode in which fractions are rounded when represented in text.
     /// Obtiene o establece el modo en el que se redondean las fracciones a la hora de representarlas en texto.
     /// </summary>
     public FractionRoundMode RoundMode
@@ -279,6 +317,7 @@
     }
 
     /// <summary>
+    /// Gets or sets the seconds.
     /// Obtiene o establece los segundos.
     /// </summary>
     public int Seconds
@@ -296,6 +335,7 @@
     }
 
     /// <summary>
+    /// Gets or sets the ticks.
     /// Obtiene o establece los ticks.
     /// </summary>
     public int Ticks
@@ -313,6 +353,7 @@
     }
 
     /// <summary>
+    /// Gets or sets the time in ticks.
     /// Obtiene o establece el tiempo en ticks.
     /// </summary>
     public long TotalTicks
@@ -331,35 +372,76 @@
 
     #region Operators
     /// <summary>
+    /// Compares two objects to determine whether the first specified object is less than the second specified object.
     /// Compara dos objetos para determinar si el primer objeto especificado es menor que el segundo objeto especificado.
     /// </summary>
-    /// <param name="obj1">Primer objeto especificado.</param>
-    /// <param name="obj2">Segundo objeto especificado.</param>
-    /// <returns>Si el primer objeto especificado es menos que el segundo objeto especificado true, en caso contrario false.</returns>
+    /// <param name="obj1">
+    /// First specified object.
+    /// Primer objeto especificado.
+    /// </param>
+    /// <param name="obj2">
+    /// Second specified object.
+    /// Segundo objeto especificado.
+    /// </param>
+    /// 
+    /// <returns>
+    /// If the first specified object is less than the second specified object, true; otherwise, false.
+    /// Si el primer objeto especificado es menor que el segundo objeto especificado true, en caso contrario false.
+    /// </returns>
     public static bool operator <(MediaTime obj1, MediaTime obj2) => obj1.TotalTicks < obj2.TotalTicks;
 
     /// <summary>
+    /// Compares two objects to determine whether the first specified object is less than or equal to the second specified object.
     /// Compara dos objetos para determinar si el primer objeto especificado es menor o igual que el segundo objeto especificado.
     /// </summary>
-    /// <param name="obj1">Primer objeto especificado.</param>
-    /// <param name="obj2">Segundo objeto especificado.</param>
-    /// <returns>Si el primer objeto especificado es menor o igual que el segundo objeto especificado true, en caso contrario false.</returns>
+    /// <param name="obj1">
+    /// First specified object.
+    /// Primer objeto especificado.
+    /// </param>
+    /// <param name="obj2">
+    /// Second specified object.
+    /// Segundo objeto especificado.
+    /// </param>
+    /// <returns>
+    /// If the first specified object is less than or equal to the second specified object, true; otherwise, false.
+    /// Si el primer objeto especificado es menor o igual que el segundo objeto especificado true, en caso contrario false.
+    /// </returns>
     public static bool operator <=(MediaTime obj1, MediaTime obj2) => obj1.TotalTicks <= obj2.TotalTicks;
 
     /// <summary>
+    /// Compares two objects to determine whether the first specified object is not equal to the second specified object.
     /// Campara dos objetos para determinar si el primer objeto especificado no es igual al segundo objeto especificado.
     /// </summary>
-    /// <param name="obj1">Primer objeto especificado.</param>
-    /// <param name="obj2">Segundo objeto especificado.</param>
-    /// <returns>Si los dos objetos son distintos true, en caso contrario false.</returns>
+    /// <param name="obj1">
+    /// First specified object.
+    /// Primer objeto especificado.
+    /// </param>
+    /// <param name="obj2">
+    /// Second specified object.
+    /// Segundo objeto especificado.
+    /// </param>
+    /// <returns>
+    /// If the two objects are different, true; otherwise, false.
+    /// Si los dos objetos son distintos true, en caso contrario false.
+    /// </returns>
     public static bool operator !=(MediaTime obj1, MediaTime obj2) => !obj1.Equals(obj2);
 
     /// <summary>
+    /// Subtracts two specified objects.
     /// Resta dos objetos especificados.
     /// </summary>
-    /// <param name="obj1">Primero objeto especificado.</param>
-    /// <param name="obj2">Segundo objeto especificado.</param>
-    /// <returns>Objeto resultante de la resta.</returns>
+    /// <param name="obj1">
+    /// First specified object.
+    /// Primer objeto especificado.
+    /// </param>
+    /// <param name="obj2">
+    /// Second specified object.
+    /// Segundo objeto especificado.
+    /// </param>
+    /// <returns>
+    /// Object resulting from the subtraction.
+    /// Objeto resultante de la resta.
+    /// </returns>
     public static MediaTime operator -(MediaTime obj1, MediaTime obj2)
     {
       MediaTime mt = new(obj1.TotalTicks, obj1.FractionsPerSeconds);
@@ -368,11 +450,21 @@
     }
 
     /// <summary>
+    /// Adds two specified objects.
     /// Suma dos objetos especificados.
     /// </summary>
-    /// <param name="obj1">Primero objeto especificado.</param>
-    /// <param name="obj2">Segundo objeto especificado.</param>
-    /// <returns>Objeto resultante de la suma.</returns>
+    /// <param name="obj1">
+    /// First specified object.
+    /// Primer objeto especificado.
+    /// </param>
+    /// <param name="obj2">
+    /// Second specified object.
+    /// Segundo objeto especificado.
+    /// </param>
+    /// <returns>
+    /// Object resulting from the sum.
+    /// Objeto resultante de la suma.
+    /// </returns>
     public static MediaTime operator +(MediaTime obj1, MediaTime obj2)
     {
       MediaTime mt = new(obj1.TotalTicks, obj1.FractionsPerSeconds);
@@ -381,126 +473,223 @@
     }
 
     /// <summary>
+    /// Compares two objects to determine whether the first specified object is equal to the second specified object.
     /// Campara dos objetos para determinar si el primer objeto especificado es igual al segundo objeto especificado.
     /// </summary>
-    /// <param name="obj1">Primer objeto especificado.</param>
-    /// <param name="obj2">Segundo objeto especificado.</param>
-    /// <returns>Si los dos objetos son iguales true, en caso contrario false.</returns>
+    /// <param name="obj1">
+    /// First specified object.
+    /// Primer objeto especificado.
+    /// </param>
+    /// <param name="obj2">
+    /// Second specified object.
+    /// Segundo objeto especificado.
+    /// </param>
+    /// <returns>
+    /// If the two objects are equal, true; otherwise, false.
+    /// Si los dos objetos son iguales true, en caso contrario false.
+    /// </returns>
     public static bool operator ==(MediaTime obj1, MediaTime obj2) => obj1.Equals(obj2);
 
     /// <summary>
+    /// Compares two objects to determine whether the first specified object is greater than the second specified object.
     /// Compara dos objetos para determinar si el primer objeto especificado es mayor que el segundo objeto especificado.
     /// </summary>
-    /// <param name="obj1">Primer objeto especificado.</param>
-    /// <param name="obj2">Segundo objeto especificado.</param>
-    /// <returns>Si el primer objeto especificado es mayor que el segundo objeto especificado true, en caso contrario false.</returns>
+    /// <param name="obj1">
+    /// First specified object.
+    /// Primer objeto especificado.
+    /// </param>
+    /// <param name="obj2">
+    /// Second specified object.
+    /// Segundo objeto especificado.
+    /// </param>
+    /// <returns>
+    /// If the first specified object is greater than the second specified object, true; otherwise, false.
+    /// Si el primer objeto especificado es mayor que el segundo objeto especificado true, en caso contrario false.
+    /// </returns>
     public static bool operator >(MediaTime obj1, MediaTime obj2) => obj1.TotalTicks > obj2.TotalTicks;
 
     /// <summary>
+    /// Compares two objects to determine whether the first specified object is greater than or equal to the second specified object.
     /// Compara dos objetos para determinar si el primer objeto especificado es mayor o igual que el segundo objeto especificado.
     /// </summary>
-    /// <param name="obj1">Primer objeto especificado.</param>
-    /// <param name="obj2">Segundo objeto especificado.</param>
-    /// <returns>Si el primer objeto especificado es mayor o igual que el segundo objeto especificado true, en caso contrario false.</returns>
+    /// <param name="obj1">
+    /// First specified object.
+    /// Primer objeto especificado.
+    /// </param>
+    /// <param name="obj2">
+    /// Second specified object.
+    /// Segundo objeto especificado.
+    /// </param>
+    /// <returns>
+    /// If the first specified object is greater than or equal to the second specified object, true; otherwise, false.
+    /// Si el primer objeto especificado es mayor o igual que el segundo objeto especificado true, en caso contrario false.
+    /// </returns>
     public static bool operator >=(MediaTime obj1, MediaTime obj2) => obj1.TotalTicks >= obj2.TotalTicks;
     #endregion
 
     #region Public methods
     /// <summary>
+    /// Adds the specified number of days to the current time.
     /// Añade el número de días especificado al tiempo actual.
     /// </summary>
-    /// <param name="days">Número de días especificado.</param>
+    /// <param name="days">
+    /// Specified number of days.
+    /// Número de días especificado.
+    /// </param>
     public void AddDays(int days) => TotalTicks += days * TicksDay;
 
     /// <summary>
+    /// Adds the specified number of hours to the current time.
     /// Añade el número de horas especificado al tiempo actual.
     /// </summary>
-    /// <param name="hours">Número de horas especificado.</param>
+    /// <param name="hours">
+    /// Specified number of hours.
+    /// Número de horas especificado.
+    /// </param>
     public void AddHours(int hours) => TotalTicks += hours * TicksHour;
 
     /// <summary>
+    /// Adds the specified number of fractions to the current time.
     /// Añade el número de fracciones especificado al tiempo actual.
     /// </summary>
-    /// <param name="fractions">Número de fracciones especificado.</param>
+    /// <param name="fractions">
+    /// Specified number of fractions.
+    /// Número de fracciones especificado.
+    /// </param>
     public void AddFractions(int fractions) => TotalTicks += (long)(fractions * MillisecondsPerFraction * TicksMillisecond);
 
     /// <summary>
+    /// Adds the specified number of milliseconds to the current time.
     /// Añade el número de milisegundos especificado al tiempo actual.
     /// </summary>
-    /// <param name="milliseconds">Número de milisegundos especificado.</param>
+    /// <param name="milliseconds">
+    /// Specified number of milliseconds.
+    /// Número de milisegundos especificado.
+    /// </param>
     public void AddMilliseconds(int milliseconds) => TotalTicks += milliseconds * TicksMillisecond;
 
     /// <summary>
+    /// Adds the specified number of minutes to the current time.
     /// Añade el número de minutos especificado al tiempo actual.
     /// </summary>
-    /// <param name="minutes">Número de minutos especificado.</param>
+    /// <param name="minutes">
+    /// Specified number of minutes.
+    /// Número de minutos especificado.
+    /// </param>
     public void AddMinutes(int minutes) => TotalTicks += minutes * TicksMinute;
 
     /// <summary>
+    /// Adds the specified number of seconds to the current time.
     /// Añade el número de segundos especificado al tiempo actual.
     /// </summary>
-    /// <param name="seconds">Número de segundos especificado.</param>
+    /// <param name="seconds">
+    /// Specified number of seconds.
+    /// Número de segundos especificado.
+    /// </param>
     public void AddSeconds(int seconds) => TotalTicks += seconds * TicksSecond;
 
     /// <summary>
+    /// Adds the specified number of ticks to the current time.
     /// Añade el número de ticks especificado al tiempo actual.
     /// </summary>
-    /// <param name="ticks">Número de ticks especificado.</param>
+    /// <param name="ticks">
+    /// Specified number of ticks.
+    /// Número de ticks especificado.
+    /// </param>
     public void AddTicks(int ticks) => TotalTicks += ticks;
 
     /// <summary>
-    /// Compara el objeto especificado con la instacia actual para determinar si se consideran iguales.
+    /// Compares the specified object with the current instance to determine whether they are considered equal.
+    /// Compara el objeto especificado con la instancia actual para determinar si se consideran iguales.
     /// </summary>
-    /// <param name="obj">Objeto especificado.</param>
-    /// <returns>Si los dos objetos son considerados iguales true, en caso contrario false.</returns>
+    /// <param name="obj">
+    /// Specified object.
+    /// Objeto especificado.
+    /// </param>
+    /// <returns>
+    /// If the two objects are considered equal, true; otherwise, false.
+    /// Si los dos objetos son considerados iguales true, en caso contrario false.
+    /// </returns>
     public override bool Equals(object? obj) => obj is MediaTime mediaTime && mediaTime.TotalTicks == TotalTicks;
 
     /// <summary>
+    /// Gets the hash code for the current instance.
     /// Obtiene el código hash de la instancia actual.
     /// </summary>
-    /// <returns>Código hash de la instancia actual.</returns>
+    /// <returns>
+    /// Hash code for the current instance.
+    /// Código hash de la instancia actual.
+    /// </returns>
     public override int GetHashCode() => TotalTicks.GetHashCode();
 
     /// <summary>
+    /// Gets the total number of days.
     /// Obtiene el número total de días.
     /// </summary>
-    /// <returns>Número total de días.</returns>
+    /// <returns>
+    /// Total number of days.
+    /// Número total de días.
+    /// </returns>
     public double GetTotalDays() => TotalTicks / (double)TicksDay;
 
     /// <summary>
+    /// Gets the total number of fractions.
     /// Obtiene el número total de fracciones.
     /// </summary>
-    /// <returns>Número total de fracciones.</returns>
+    /// <returns>
+    /// Total number of fractions.
+    /// Número total de fracciones.
+    /// </returns>
     public double GetTotalFractions() => TotalTicks / (double)TicksMillisecond / MillisecondsPerFraction;
 
     /// <summary>
+    /// Gets the total number of hours.
     /// Obtiene el número total de horas.
     /// </summary>
-    /// <returns>Número total de horas.</returns>
+    /// <returns>
+    /// Total number of hours.
+    /// Número total de horas.
+    /// </returns>
     public double GetTotalHours() => TotalTicks / (double)TicksHour;
 
     /// <summary>
+    /// Gets the total number of milliseconds.
     /// Obtiene el número total de milisegundos.
     /// </summary>
-    /// <returns>Número total de milisegundos.</returns>
+    /// <returns>
+    /// Total number of milliseconds.
+    /// Número total de milisegundos.
+    /// </returns>
     public double GetTotalMilliseconds() => TotalTicks / (double)TicksMillisecond;
 
     /// <summary>
+    /// Gets the total number of minutes.
     /// Obtiene el número total de minutos.
     /// </summary>
-    /// <returns>Número total de minutos.</returns>
+    /// <returns>
+    /// Total number of minutes.
+    /// Número total de minutos.
+    /// </returns>
     public double GetTotalMinutes() => TotalTicks / (double)TicksMinute;
 
     /// <summary>
+    /// Gets the total number of seconds.
     /// Obtiene el número total de segundos.
     /// </summary>
-    /// <returns>Número total de segundos.</returns>
+    /// <returns>
+    /// Total number of seconds.
+    /// Número total de segundos.
+    /// </returns>
     public double GetTotalSeconds() => TotalTicks / (double)TicksSecond;
 
     /// <summary>
+    /// Gets the current time string representation.
     /// Obtiene la representación en cadena del tiempo actual.
     /// </summary>
-    /// <returns>Representación en cadena del tiempo actual.</returns>
+    /// <returns>
+    /// Current time string representation.
+    /// Representación en cadena del tiempo actual.
+    /// </returns>
     public override string ToString()
     {
       int fractionsRounded = RoundMode switch
@@ -517,6 +706,7 @@
 
     #region Private methods
     /// <summary>
+    /// Update the data relating to fractions per second.
     /// Actualiza los datos relativos a las fracciones por segundo.
     /// </summary>
     private void RefreshFractionPerSeconds()
@@ -532,6 +722,7 @@
     }
 
     /// <summary>
+    /// Update multimedia time values.
     /// Actualiza los valores del tiempo mutimedia.
     /// </summary>
     private void RefreshMediaTime()
@@ -559,6 +750,7 @@
     }
 
     /// <summary>
+    /// Update the time.
     /// Actualiza el tiempo.
     /// </summary>
     private void RefreshTime() => totalTicks = (Days * MediaTime.TicksDay) + (Hours * TicksHour) + (Minutes * TicksMinute) + (Seconds * TicksSecond) + (Milliseconds * TicksMillisecond) + Ticks;
