@@ -1,4 +1,6 @@
-﻿namespace Espamatica.Core
+﻿using System.Globalization;
+
+namespace Espamatica.Core
 {
   /// <summary>
   /// Structure for multimedia time management.
@@ -156,7 +158,7 @@
     /// Fractions per second (between 1 and 1000).
     /// Fracciones por segundo (entre 1 y 1000).
     /// </param>
-    public MediaTime(long time, int fractionsPerSecond)
+    public MediaTime(long time, int fractionsPerSecond, FractionRoundMode fractionRoundMode = FractionRoundMode.Truncate)
     {
       if (fractionsPerSecond < 1 || fractionsPerSecond > MillisecondsSecond)
         throw new ArgumentOutOfRangeException(nameof(fractionsPerSecond), fractionsPerSecond, string.Format("to {0} from {1}", 1, MillisecondsSecond));
@@ -169,7 +171,7 @@
       milliseconds = 0;
       millisecondsPerFraction = 0.0;
       minutes = 0;
-      roundMode = FractionRoundMode.Truncate;
+      roundMode = fractionRoundMode;
       seconds = 0;
       ticks = 0;
       totalTicks = time;
@@ -186,7 +188,7 @@
     /// </summary>
     public int Days
     {
-      get => days;
+      readonly get => days;
       set
       {
         if (value != days)
@@ -204,7 +206,7 @@
     /// </summary>
     public int DigitPerFraction
     {
-      get => digitPerFraction;
+      readonly get => digitPerFraction;
       private set => digitPerFraction = value;
     }
 
@@ -214,7 +216,7 @@
     /// </summary>
     public double Fractions
     {
-      get => fractions;
+      readonly get => fractions;
       set
       {
         if (value != fractions)
@@ -228,7 +230,7 @@
     /// </summary>
     public int FractionsPerSeconds
     {
-      get => fractionsPerSecond;
+      readonly get => fractionsPerSecond;
       set
       {
         if (value != fractionsPerSecond)
@@ -249,7 +251,7 @@
     /// </summary>
     public int Hours
     {
-      get => hours;
+      readonly get => hours;
       set
       {
         if (value != hours)
@@ -267,7 +269,7 @@
     /// </summary>
     public int Milliseconds
     {
-      get => milliseconds;
+      readonly get => milliseconds;
       set
       {
         if (value != milliseconds)
@@ -284,7 +286,7 @@
     /// </summary>
     public double MillisecondsPerFraction
     {
-      get => millisecondsPerFraction;
+      readonly get => millisecondsPerFraction;
       private set => millisecondsPerFraction = value;
     }
 
@@ -294,7 +296,7 @@
     /// </summary>
     public int Minutes
     {
-      get => minutes;
+      readonly get => minutes;
       set
       {
         if (value != minutes)
@@ -312,7 +314,7 @@
     /// </summary>
     public FractionRoundMode RoundMode
     {
-      get => roundMode;
+      readonly get => roundMode;
       set => roundMode = value;
     }
 
@@ -322,7 +324,7 @@
     /// </summary>
     public int Seconds
     {
-      get => seconds;
+      readonly get => seconds;
       set
       {
         if (value != seconds)
@@ -340,7 +342,7 @@
     /// </summary>
     public int Ticks
     {
-      get => ticks;
+      readonly get => ticks;
       set
       {
         if (value != ticks)
@@ -353,12 +355,42 @@
     }
 
     /// <summary>
+    /// Gets the total fractions.
+    /// Obtiene las fracciones totales.
+    /// </summary>
+    public readonly long TotalFractions => TotalSeconds * FractionsPerSeconds;
+
+    /// <summary>
+    /// Gets the total hours.
+    /// Obtiene las horas totales.
+    /// </summary>
+    public readonly long TotalHours => totalTicks / TicksHour;
+
+    /// <summary>
+    /// Gets the total milliseconds.
+    /// Obtiene los milisegundos totales.
+    /// </summary>
+    public readonly long TotalMilliseconds => totalTicks / TicksMillisecond;
+
+    /// <summary>
+    /// Gets the total minutes.
+    /// Obtiene los minutos totales.
+    /// </summary>
+    public readonly long TotalMinutes => totalTicks / TicksMinute;
+
+    /// <summary>
+    /// Gets the total seconds.
+    /// Obtiene los segundos totales.
+    /// </summary>
+    public readonly long TotalSeconds => totalTicks / TicksSecond;
+
+    /// <summary>
     /// Gets or sets the time in ticks.
     /// Obtiene o establece el tiempo en ticks.
     /// </summary>
     public long TotalTicks
     {
-      get => totalTicks;
+      readonly get => totalTicks;
       set
       {
         if (value != totalTicks)
@@ -529,6 +561,323 @@
 
     #region Public methods
     /// <summary>
+    /// Returns a <see cref="Espamatica.Core.MediaTime"/> representing a specified number of fractions with an approximate precision to the nearest millisecond.
+    /// Devuelve un <see cref="Espamatica.Core.MediaTime"/> que representa un número de fracciones especificado con una precisión aproximada al milisegundo más cercano.
+    /// </summary>
+    /// <param name="fractions">
+    /// Number of fractions with an accuracy of approximately the nearest millisecond.
+    /// Número de fracciones con una precisión aproximada al milisegundo más cercano.
+    /// </param>
+    /// <param name="fractionsPerSecond">
+    /// Fractions per second.
+    /// Fracciones por segundo.
+    /// </param>
+    /// <param name="fractionRoundMode">
+    /// Specifies the rounding mode for fractions.
+    /// Indica el modo de redondeo de las fracciones.
+    /// </param>
+    /// <returns>
+    /// <see cref="Espamatica.Core.MediaTime"/> representing the specified time.
+    /// <see cref="Espamatica.Core.MediaTime"/> que representa el tiempo especificado.
+    /// </returns>
+    public static MediaTime FromFractions(long fractions, int fractionsPerSecond = DefaultFractionsPerSecond, FractionRoundMode fractionRoundMode = FractionRoundMode.Truncate) => new(fractions, fractionsPerSecond, fractionRoundMode);
+
+    /// <summary>
+    /// Converts the string representation of a time interval to its equivalent in <see cref="Espamatica.Core.MediaTime"/>.
+    /// Convierte la representación de cadena de un intervalo de tiempo en su equivalente de <see cref="Espamatica.Core.MediaTime"/>. 
+    /// </summary>
+    /// <param name="s">
+    /// String specifying the time interval to be converted. [hh:][mm:]ss[.fr].
+    /// Cadena que especifica el intervalo de tiempo que se va a convertir. [hh:][mm:]ss[.fr].
+    /// </param>
+    /// <param name="fractionsPerSecond">
+    /// Fractions per second.
+    /// Fracciones por segundo.
+    /// </param>
+    /// <param name="fractionRoundMode">
+    /// Indicates the rounding mode for fractions.
+    /// Indica el modo de redondeo de las fracciones.
+    /// </param>
+    /// <returns>
+    /// Object <see cref="Espamatica.Core.MediaTime"/> corresponding to s.
+    /// Objeto <see cref="Espamatica.Core.MediaTime"/> que corresponde a s.
+    /// </returns>
+    public static MediaTime Parse(string s, int fractionsPerSecond, FractionRoundMode fractionRoundMode = FractionRoundMode.Truncate)
+    {
+      if (string.IsNullOrWhiteSpace(s))
+        throw new ArgumentNullException(nameof(s));
+
+      long hours = 0, minutes = 0, seconds, fractions = 0;
+      string[] array = s.Split(['.']);
+
+      if (array.Length > 2)
+        throw new FormatException();
+      else if (array.Length > 1)
+      {
+        fractions = long.Parse(array[1]);
+        if (fractions > fractionsPerSecond)
+          throw new OverflowException();
+      }
+
+      array = array[0].Split([':']);
+      switch (array.Length)
+      {
+        case 1:
+          seconds = Convert.ToInt64(array[0]) * Convert.ToInt64(fractionsPerSecond);
+          break;
+        case 2:
+          minutes = Convert.ToInt64(array[0]) * 60L * Convert.ToInt64(fractionsPerSecond);
+          seconds = Convert.ToInt64(array[1]) * Convert.ToInt64(fractionsPerSecond);
+          break;
+        case 3:
+          hours = Convert.ToInt64(array[0]) * 3600L * Convert.ToInt64(fractionsPerSecond);
+          minutes = Convert.ToInt64(array[1]) * 60L * Convert.ToInt64(fractionsPerSecond);
+          seconds = Convert.ToInt64(array[2]) * Convert.ToInt64(fractionsPerSecond);
+          break;
+        default:
+          throw new FormatException();
+      }
+
+      fractions += seconds + minutes + hours;
+
+      return new MediaTime(fractions, fractionsPerSecond, fractionRoundMode);
+    } // Parse
+
+    /// <summary>
+    /// Converts the string representation of a time interval to its equivalent in <see cref="Espamatica.Core.MediaTime"/>.
+    /// Convierte la representación de cadena de un intervalo de tiempo en su equivalente de <see cref="Espamatica.Core.MediaTime"/>. 
+    /// </summary>
+    /// <param name="s">
+    /// String specifying the time interval to be converted. [hh:][mm:]ss[.fr].
+    /// Cadena que especifica el intervalo de tiempo que se va a convertir. [hh:][mm:]ss[.fr].
+    /// </param>
+    /// <param name="fractionsPerSecond">
+    /// Fractions per second.
+    /// Fracciones por segundo.
+    /// </param>
+    /// <param name="stringFormat">
+    /// String format.
+    /// Formato de la cadena.
+    /// </param>
+    /// <param name="fractionRoundMode">
+    /// Indicates the rounding mode for fractions.
+    /// Indica el modo de redondeo de las fracciones.
+    /// </param>
+    /// <param name="fractionSeparator">
+    /// Character used for fraction separators.
+    /// Carácter utilizado para el separador de fracciones.
+    /// </param>
+    /// <returns>
+    /// Object <see cref="Espamatica.Core.MediaTime"/> corresponding to s.
+    /// Objeto <see cref="Espamatica.Core.MediaTime"/> que corresponde a s.
+    /// </returns>
+    public static MediaTime Parse(string s, int fractionsPerSecond, MediaTimeStringFormat stringFormat, FractionRoundMode fractionRoundMode = FractionRoundMode.Truncate, char fractionSeparator = '.')
+    {
+      if (string.IsNullOrWhiteSpace(s))
+        throw new ArgumentNullException(nameof(s));
+
+      decimal hours = 0M, minutes = 0M, seconds = 0M, fractions = 0M;
+      string decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
+      string errorFormat = string.Empty;
+      string[] array = s.Replace(fractionSeparator, ':').Split([':']);
+
+      switch (stringFormat)
+      {
+        case MediaTimeStringFormat.HHmm:
+          if (array.Length < 2 || array.Length > 4)
+            errorFormat = $"{stringFormat}";
+          else
+          {
+            hours = decimal.Parse(array[0]);
+            minutes = decimal.Parse(array[1]);
+          }
+          break;
+        case MediaTimeStringFormat.HHmmss:
+          if (array.Length < 3 || array.Length > 4)
+            errorFormat = $"{stringFormat}";
+          else
+          {
+            hours = decimal.Parse(array[0]);
+            minutes = decimal.Parse(array[1]);
+            seconds = decimal.Parse(array[2]);
+          }
+          break;
+        case MediaTimeStringFormat.HHmmssff:
+          if (array.Length != 4)
+            errorFormat = $"{stringFormat}";
+          else
+          {
+            hours = decimal.Parse(array[0]);
+            minutes = decimal.Parse(array[1]);
+            seconds = decimal.Parse(array[2]);
+            fractions = decimal.Parse(array[3]);
+          }
+          break;
+        case MediaTimeStringFormat.HHmmssmmm:
+          if (array.Length != 4)
+            errorFormat = $"{stringFormat}";
+          else
+          {
+            hours = decimal.Parse(array[0]);
+            minutes = decimal.Parse(array[1]);
+            seconds = decimal.Parse(string.Format("{0}{1}{2}", array[2], decimalSeparator, array[3]));
+          }
+          break;
+        case MediaTimeStringFormat.mmss:
+          if (array.Length < 2 || array.Length > 3)
+            errorFormat = $"{stringFormat}";
+          else
+          {
+            minutes = decimal.Parse(array[0]);
+            seconds = decimal.Parse(array[1]);
+          }
+          break;
+        case MediaTimeStringFormat.mmssff:
+          if (array.Length != 3)
+            errorFormat = $"{stringFormat}";
+          else
+          {
+            minutes = decimal.Parse(array[0]);
+            seconds = decimal.Parse(array[1]);
+            fractions = decimal.Parse(array[2]);
+          }
+          break;
+        case MediaTimeStringFormat.mmssmmm:
+          if (array.Length != 3)
+            errorFormat = $"{stringFormat}";
+          else
+          {
+            minutes = decimal.Parse(array[0]);
+            seconds = decimal.Parse(string.Format("{0}{1}{2}", array[1], decimalSeparator, array[2]));
+          }
+          break;
+        case MediaTimeStringFormat.ssff:
+          if (array.Length != 2)
+            errorFormat = $"{stringFormat}";
+          else
+          {
+            seconds = decimal.Parse(array[0]);
+            fractions = decimal.Parse(array[1]);
+          }
+          break;
+        case MediaTimeStringFormat.ssmmm:
+          if (array.Length != 2)
+            errorFormat = $"{stringFormat}";
+          else
+            seconds = decimal.Parse(string.Format("{0}{1}{2}", array[0], decimalSeparator, array[1]));
+          break;
+      }
+
+      if (!string.IsNullOrWhiteSpace(errorFormat))
+        throw new FormatException($"Invalid string format: {errorFormat}");
+
+      seconds *= Convert.ToDecimal(fractionsPerSecond);
+      minutes *= 60M * Convert.ToDecimal(fractionsPerSecond);
+      hours *= 3600M * Convert.ToDecimal(fractionsPerSecond);
+      fractions += seconds + minutes + hours;
+
+      return FromFractions(Convert.ToInt64(fractions), fractionsPerSecond, fractionRoundMode);
+    }
+
+    /// <summary>
+    /// Converts the string representation of a time interval to its equivalent in <see cref="Espamatica.Core.MediaTime"/> and returns a value indicating whether the conversion was successful.
+    /// Convierte la representación de cadena de un intervalo de tiempo en su equivalente de <see cref="Espamatica.Core.MediaTime"/> y devuelve un valor que indica si la conversión se realizó correctamente.
+    /// </summary>
+    /// <param name="s">
+    /// String specifying the time interval to be converted. [hh:][mm:]ss[.fr].
+    /// Cadena que especifica el intervalo de tiempo que se va a convertir. [hh:][mm:]ss[.fr].
+    /// </param>
+    /// <param name="fractionsPerSecond">
+    /// Fractions per second.
+    /// Fracciones por segundo.
+    /// </param>
+    /// <param name="result">
+    /// The result returned by this method contains an object representing the time interval specified by s or <see cref="System.TimeSpan.MinValue"/> if the conversion did not complete successfully. This parameter is passed uninitialized.
+    /// El resultado que devuelve este método contiene un objeto que representa el intervalo de tiempo especificado por s o <see cref="System.TimeSpan.MinValue"/> si la conversión no finalizó correctamente. Este parámetro se pasa sin inicializar.
+    /// </param>
+    /// <param name="fractionRoundMode">
+    /// Indicates the rounding mode for fractions.
+    /// Indica el modo de redondeo de las fracciones.
+    /// </param>
+    /// <returns>
+    /// It is true if s was converted correctly; otherwise, it is false.
+    /// This operation returns false if the parameter s is Nothing or <see cref="String. Empty"/>, has an invalid format, represents a time span less than <see cref="System.TimeSpan.MinValue"/> or greater than <see cref="System.TimeSpan.MaxValue"/>,
+    /// or has at least one of its day, hour, minute, second, or frame components outside the valid range.
+    /// Es true si s se convirtió correctamente; de lo contrario, es false.
+    /// Esta operación devuelve false si el parámetro s es Nothing o <see cref="String.Empty"/>, tiene un formato no válido, representa un intervalo de tiempo menor que <see cref="System.TimeSpan.MinValue"/> o mayor que <see cref="System.TimeSpan.MaxValue"/>, 
+    /// o tiene al menos uno de sus componentes de días, horas, minutos, segundos o frames fuera del intervalo válido.
+    /// </returns>
+    public static bool TryParse(string s, int fractionsPerSecond, out MediaTime result, FractionRoundMode fractionRoundMode = FractionRoundMode.Truncate)
+    {
+      bool isOk = true;
+
+      try
+      {
+        result = Parse(s, fractionsPerSecond, fractionRoundMode);
+      }
+      catch
+      {
+        result = new(0, fractionsPerSecond, fractionRoundMode);
+        isOk = false;
+      }
+
+      return isOk;
+    } // TryParse
+
+    /// <summary>
+    /// Converts the string representation of a time interval to its equivalent in <see cref="Espamatica.Core.MediaTime"/> and returns a value indicating whether the conversion was successful.
+    /// Convierte la representación de cadena de un intervalo de tiempo en su equivalente de <see cref="Espamatica.Core.MediaTime"/> y devuelve un valor que indica si la conversión se realizó correctamente.
+    /// </summary>
+    /// <param name="s">
+    /// String specifying the time interval to be converted. [hh:][mm:]ss[.fr].
+    /// Cadena que especifica el intervalo de tiempo que se va a convertir. [hh:][mm:]ss[.fr].
+    /// </param>
+    /// <param name="fractionsPerSecond">
+    /// Fractions per second.
+    /// Fracciones por segundo.
+    /// </param>
+    /// <param name="result">
+    /// The result returned by this method contains an object representing the time interval specified by s or <see cref="System.TimeSpan.MinValue"/> if the conversion did not complete successfully. This parameter is passed uninitialized.
+    /// El resultado que devuelve este método contiene un objeto que representa el intervalo de tiempo especificado por s o <see cref="System.TimeSpan.MinValue"/> si la conversión no finalizó correctamente. Este parámetro se pasa sin inicializar.
+    /// </param>
+    /// <param name="stringFormat">
+    /// Specifies the string format.
+    /// Indica el formato de cadena.
+    /// </param>
+    /// <param name="fractionRoundMode">
+    /// Indicates the rounding mode for fractions.
+    /// Indica el modo de redondeo de las fracciones.
+    /// </param>
+    /// <param name="fractionSeparator">
+    /// Specifies the character used as a fraction separator.
+    /// Indica el carácter utilizado como separador de fracciones.
+    /// </param>
+    /// <returns>
+    /// It is true if s was converted correctly; otherwise, it is false.
+    /// This operation returns false if the parameter s is Nothing or <see cref="String. Empty"/>, has an invalid format, represents a time span less than <see cref="System.TimeSpan.MinValue"/> or greater than <see cref="System.TimeSpan.MaxValue"/>,
+    /// or has at least one of its day, hour, minute, second, or frame components outside the valid range.
+    /// Es true si s se convirtió correctamente; de lo contrario, es false.
+    /// Esta operación devuelve false si el parámetro s es Nothing o <see cref="String.Empty"/>, tiene un formato no válido, representa un intervalo de tiempo menor que <see cref="System.TimeSpan.MinValue"/> o mayor que <see cref="System.TimeSpan.MaxValue"/>, 
+    /// o tiene al menos uno de sus componentes de días, horas, minutos, segundos o frames fuera del intervalo válido.
+    /// </returns>
+    public static bool TryParse(string s, int fractionsPerSecond, out MediaTime result, MediaTimeStringFormat stringFormat, FractionRoundMode fractionRoundMode = FractionRoundMode.Truncate, char fractionSeparator = '.')
+    {
+      var isOk = true;
+
+      try
+      {
+        result = Parse(s, fractionsPerSecond, stringFormat, fractionRoundMode, fractionSeparator);
+      }
+      catch
+      {
+        result = new(0, fractionsPerSecond, fractionRoundMode);
+        isOk = false;
+      }
+
+      return isOk;
+    }
+
+    /// <summary>
     /// Adds the specified number of days to the current time.
     /// Añade el número de días especificado al tiempo actual.
     /// </summary>
@@ -610,7 +959,7 @@
     /// If the two objects are considered equal, true; otherwise, false.
     /// Si los dos objetos son considerados iguales true, en caso contrario false.
     /// </returns>
-    public override bool Equals(object? obj) => obj is MediaTime mediaTime && mediaTime.TotalTicks == TotalTicks;
+    public readonly override bool Equals(object? obj) => obj is MediaTime mediaTime && mediaTime.TotalTicks == TotalTicks;
 
     /// <summary>
     /// Gets the hash code for the current instance.
@@ -620,7 +969,7 @@
     /// Hash code for the current instance.
     /// Código hash de la instancia actual.
     /// </returns>
-    public override int GetHashCode() => TotalTicks.GetHashCode();
+    public readonly override int GetHashCode() => TotalTicks.GetHashCode();
 
     /// <summary>
     /// Gets the total number of days.
@@ -630,7 +979,7 @@
     /// Total number of days.
     /// Número total de días.
     /// </returns>
-    public double GetTotalDays() => TotalTicks / (double)TicksDay;
+    public readonly double GetTotalDays() => TotalTicks / (double)TicksDay;
 
     /// <summary>
     /// Gets the total number of fractions.
@@ -640,7 +989,7 @@
     /// Total number of fractions.
     /// Número total de fracciones.
     /// </returns>
-    public double GetTotalFractions() => TotalTicks / (double)TicksMillisecond / MillisecondsPerFraction;
+    public readonly double GetTotalFractions() => TotalTicks / (double)TicksMillisecond / MillisecondsPerFraction;
 
     /// <summary>
     /// Gets the total number of hours.
@@ -650,7 +999,7 @@
     /// Total number of hours.
     /// Número total de horas.
     /// </returns>
-    public double GetTotalHours() => TotalTicks / (double)TicksHour;
+    public readonly double GetTotalHours() => TotalTicks / (double)TicksHour;
 
     /// <summary>
     /// Gets the total number of milliseconds.
@@ -660,7 +1009,7 @@
     /// Total number of milliseconds.
     /// Número total de milisegundos.
     /// </returns>
-    public double GetTotalMilliseconds() => TotalTicks / (double)TicksMillisecond;
+    public readonly double GetTotalMilliseconds() => TotalTicks / (double)TicksMillisecond;
 
     /// <summary>
     /// Gets the total number of minutes.
@@ -670,7 +1019,7 @@
     /// Total number of minutes.
     /// Número total de minutos.
     /// </returns>
-    public double GetTotalMinutes() => TotalTicks / (double)TicksMinute;
+    public readonly double GetTotalMinutes() => TotalTicks / (double)TicksMinute;
 
     /// <summary>
     /// Gets the total number of seconds.
@@ -680,7 +1029,7 @@
     /// Total number of seconds.
     /// Número total de segundos.
     /// </returns>
-    public double GetTotalSeconds() => TotalTicks / (double)TicksSecond;
+    public readonly double GetTotalSeconds() => TotalTicks / (double)TicksSecond;
 
     /// <summary>
     /// Gets the current time string representation.
@@ -690,7 +1039,7 @@
     /// Current time string representation.
     /// Representación en cadena del tiempo actual.
     /// </returns>
-    public override string ToString()
+    public readonly override string ToString()
     {
       int fractionsRounded = RoundMode switch
       {

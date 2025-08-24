@@ -17,7 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TextBoxes", "TextBoxes", "{
 	ProjectSection(SolutionItems) = preProject
 		..\Controls\WPF\TextBox\MediaTextBox.xaml = ..\Controls\WPF\TextBox\MediaTextBox.xaml
 		..\Controls\WPF\TextBox\MediaTextBox.xaml.cs = ..\Controls\WPF\TextBox\MediaTextBox.xaml.cs
+		..\Controls\WPF\TextBox\MediaTextBoxTimeEventArgs.cs = ..\Controls\WPF\TextBox\MediaTextBoxTimeEventArgs.cs
+		..\Controls\WPF\TextBox\MediaTimeSpan.cs = ..\Controls\WPF\TextBox\MediaTimeSpan.cs
 		..\Controls\WPF\TextBox\MediaTimeSpanConverter.cs = ..\Controls\WPF\TextBox\MediaTimeSpanConverter.cs
+		..\Controls\WPF\TextBox\MediaTimeSpanStringFormat.cs = ..\Controls\WPF\TextBox\MediaTimeSpanStringFormat.cs
 		..\Controls\WPF\TextBox\RegexTextBox.cs = ..\Controls\WPF\TextBox\RegexTextBox.cs
 	EndProjectSection
 EndProject
