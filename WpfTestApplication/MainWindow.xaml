@@ -74,6 +74,8 @@
       <RowDefinition Height="Auto" />
       <RowDefinition Height="10" />
       <RowDefinition Height="Auto" />
+      <RowDefinition Height="10" />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
     <TextBlock
@@ -219,7 +221,7 @@
       Grid.Row="2"
       IsMandatory="False"
       Field="{Binding ElementName=OptionalEmail, Path=Text}"
-      Pattern="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Pattern}"
+      Pattern="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=EmailPattern}"
       ToolTip="No match">
     </wpfToolkit:RegularExpressionValidator>
     
@@ -235,5 +237,76 @@
       Grid.Row="2"
       Text="Between -1 and 1">
     </TextBlock>
+
+    <wpfToolkit:RangeValidator
+      Grid.Column="13"
+      Grid.Row="2"
+      Field="{Binding ElementName=Between1and1, Path=Text}"
+      IsMandatory="False"
+      MaxValue="1"
+      MinValue="-1"
+      ToolTip="Value between -1 and 1"
+      TypeField="System.Decimal">
+    </wpfToolkit:RangeValidator>
+    
+    <TextBox
+      x:Name="Between1and1"
+      Grid.Column="14"
+      Grid.Row="2"
+      MaxLength="20">
+    </TextBox>
+
+    <TextBlock
+      Grid.Column="0"
+      Grid.Row="4"
+      Text="byte">
+    </TextBlock>
+
+    <wpfToolkit:NumericTextBox
+      Grid.Column="2"
+      Grid.Row="4"
+      MinValue="0"
+      MaxValue="255">
+    </wpfToolkit:NumericTextBox>
+
+    <TextBlock
+      Grid.Column="4"
+      Grid.Row="4"
+      Text="short">
+    </TextBlock>
+
+    <wpfToolkit:NumericTextBox
+      Grid.Column="6"
+      Grid.Row="4"
+      MinValue="-32768"
+      MaxValue="32767">
+    </wpfToolkit:NumericTextBox>
+
+    <TextBlock
+      Grid.Column="8"
+      Grid.Row="4"
+      Text="int">
+    </TextBlock>
+
+    <wpfToolkit:NumericTextBox
+      Grid.Column="10"
+      Grid.Row="4"
+      MinValue="-2147483648"
+      MaxValue="2147483647">
+    </wpfToolkit:NumericTextBox>
+
+    <TextBlock
+      Grid.Column="12"
+      Grid.Row="4"
+      Text="Currency">
+    </TextBlock>
+
+    <wpfToolkit:NumericTextBox
+      Grid.Column="14"
+      Grid.Row="4"
+      Decimals="3"
+      MinValue="0"
+      MaxValue="9999999999">
+    </wpfToolkit:NumericTextBox>
   </Grid>
 </Window>

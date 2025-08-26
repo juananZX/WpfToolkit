@@ -12,6 +12,7 @@ namespace WpfTestApplication
       InitializeComponent();
     }
 
-    public string Pattern => @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+    public string EmailPattern => @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+    public string WebSitePattern => @"^http(s)?://([\w-]+.)+[\w-]+(/[\w- ./?%&=])?$";
   }
 }

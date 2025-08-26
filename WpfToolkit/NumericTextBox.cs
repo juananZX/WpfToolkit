@@ -39,7 +39,7 @@ namespace Espamatica.WpfToolkit
     /// <summary>
     /// Obtiene el valor entero.
     /// </summary>
-    public int ValueInteger { get; private set; }
+    public long ValueLong { get; private set; }
     #endregion
 
     #region Private methods
@@ -88,7 +88,7 @@ namespace Espamatica.WpfToolkit
       _ = decimal.TryParse(Text, CultureInfo.CurrentUICulture, out decimal valD);
 
       ValueDecimal = valD;
-      ValueInteger = Convert.ToInt32(Math.Ceiling(valD));
+      ValueLong = Convert.ToInt64(Math.Ceiling(valD));
     } // SetValues
     #endregion
 
