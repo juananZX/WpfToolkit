@@ -7,24 +7,233 @@
   xmlns:local="clr-namespace:WpfTestApplication"
   xmlns:wpfToolkit="clr-namespace:Espamatica.WpfToolkit;assembly=Espamatica.WpfToolkit"
   mc:Ignorable="d"
-  Title="MainWindow" Height="450" Width="800">
-  <Grid>
+  Title="MainWindow"
+  ResizeMode="CanMinimize"
+  SizeToContent="WidthAndHeight">
+
+  <Window.Resources>
+    <Style
+      x:Key="GeneralValidatorStyle"
+      TargetType="{x:Type TextBlock}">
+
+      <Setter Property="FontFamily" Value="Arial"></Setter>
+      <Setter Property="FontSize" Value="14"></Setter>
+      <Setter Property="FontWeight" Value="Regular"></Setter>
+      <Setter Property="Foreground" Value="Red"></Setter>
+      <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+      <Setter Property="Text" Value="*"></Setter>
+      <Setter Property="VerticalAlignment" Value="Center"></Setter>
+    </Style>
+
+    <Style
+     TargetType="wpfToolkit:ComparisonValidator"
+     BasedOn="{StaticResource GeneralValidatorStyle}">
+    </Style>
+    
+    <Style
+      TargetType="wpfToolkit:FieldValidator"
+      BasedOn="{StaticResource GeneralValidatorStyle}">
+    </Style>
+
+    <Style
+      TargetType="wpfToolkit:RangeValidator"
+      BasedOn="{StaticResource GeneralValidatorStyle}">
+    </Style>
+
+    <Style
+     TargetType="wpfToolkit:RegularExpressionValidator"
+     BasedOn="{StaticResource GeneralValidatorStyle}">
+    </Style>
+
+    <Style
+      TargetType="wpfToolkit:TypeValidator"
+      BasedOn="{StaticResource GeneralValidatorStyle}">
+    </Style>
+  </Window.Resources>
+  
+  <Grid
+    Margin="10">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
-      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="10" />
+      <ColumnDefinition Width="100" />
+      <ColumnDefinition Width="10" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="10" />
+      <ColumnDefinition Width="100" />
+      <ColumnDefinition Width="10" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="10" />
+      <ColumnDefinition Width="100" />
+      <ColumnDefinition Width="10" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="10" />
+      <ColumnDefinition Width="100" />
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
+      <RowDefinition Height="10" />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <wpfToolkit:NumericTextBox
+    <TextBlock
       Grid.Column="0"
       Grid.Row="0"
+      Text="Mandatory text">
+    </TextBlock>
+
+    <wpfToolkit:FieldValidator
+      Grid.Column="1"
+      Grid.Row="0"
+      Field="{Binding ElementName=MandatoryText, Path=Text}"
+      ToolTip="This is a mandatory field">
+    </wpfToolkit:FieldValidator>
+
+    <TextBox
+      x:Name="MandatoryText"
+      Grid.Column="2"
+      Grid.Row="0"
+      MaxLength="20">
+    </TextBox>
+
+    <TextBlock
+      Grid.Column="4"
+      Grid.Row="0"
+      Text="Mandatory short">
+    </TextBlock>
+
+    <wpfToolkit:TypeValidator
+      Grid.Column="5"
+      Grid.Row="0"
+      Field="{Binding ElementName=MandatoryInt16, Path=Text}"
+      ToolTip="This is a mandatory Int16 field"
+      TypeField="System.Int16">
+    </wpfToolkit:TypeValidator>
+    
+    <TextBox
+      x:Name="MandatoryInt16"
+      Grid.Column="6"
+      Grid.Row="0"
+      MaxLength="6">
+    </TextBox>
+
+    <TextBlock
+      Grid.Column="8"
+      Grid.Row="0"
+      Text="Optional short">
+    </TextBlock>
+
+    <wpfToolkit:TypeValidator
+      Grid.Column="9"
+      Grid.Row="0"
+      Field="{Binding ElementName=OptionalInt16, Path=Text}"
+      IsMandatory="False"
+      ToolTip="This is a optional Int16 field"
+      TypeField="System.Int16">
+    </wpfToolkit:TypeValidator>
+
+    <TextBox
+      x:Name="OptionalInt16"
+      Grid.Column="10"
+      Grid.Row="0"
+      MaxLength="6">
+    </TextBox>
+
+    <TextBlock
+      Grid.Column="12"
+      Grid.Row="0"
+      Text="Mandatory %">
+    </TextBlock>
+
+    <wpfToolkit:FieldValidator
+     Grid.Column="13"
+     Grid.Row="0"
+     Field="{Binding ElementName=MandatoryPercentage, Path=Text}"
+     ToolTip="This is a mandatory percentage field">
+    </wpfToolkit:FieldValidator>
+
+    <wpfToolkit:NumericTextBox
+      x:Name="MandatoryPercentage"
+      Grid.Column="14"
+      Grid.Row="0"
       Decimals="2"
-      MinValue="-100"
-      MaxValue="100"
-      Width="100">
+      MinValue="0"
+      MaxValue="100">
     </wpfToolkit:NumericTextBox>
+
+    <TextBlock
+      Grid.Column="0"
+      Grid.Row="2"
+      Text="Mandatory date from">
+    </TextBlock>
+
+    <wpfToolkit:RangeValidator
+      Grid.Column="1"
+      Grid.Row="2"
+      MinValue="01/01/1900"
+      MaxValue="31/12/2099"
+      ToolTip="Date between 01/01/1900 and 31/12/2099"
+      TypeField="System.DateTime"
+      Field="{Binding ElementName=MandatoryDateFrom, Path=Text}">
+    </wpfToolkit:RangeValidator>
+    
+    <TextBox
+      x:Name="MandatoryDateFrom"
+      Grid.Column="2"
+      Grid.Row="2"
+      MaxLength="10">
+    </TextBox>
+
+    <TextBlock
+      Grid.Column="4"
+      Grid.Row="2"
+      Text="Optional date to">
+    </TextBlock>
+
+    <wpfToolkit:ComparisonValidator
+      Grid.Column="5"
+      Grid.Row="2"
+      IsMandatory="False"
+      ComparisonOperator="EqualOrGraterThan"
+      Field="{Binding ElementName=MandatoryDateFrom, Path=Text}"
+      Field2="{Binding ElementName=OptionalDateTo, Path=Text}"
+      ToolTip="Date greater than or equal to 'Mandatory date from'"
+      TypeField="System.DateTime">
+    </wpfToolkit:ComparisonValidator>
+    
+    <TextBox
+      x:Name="OptionalDateTo"
+      Grid.Column="6"
+      Grid.Row="2"
+      MaxLength="10">
+    </TextBox>
+
+    <TextBlock
+      Grid.Column="8"
+      Grid.Row="2"
+      Text="Optional e-mail">
+    </TextBlock>
+
+    <wpfToolkit:RegularExpressionValidator
+      Grid.Column="9"
+      Grid.Row="2"
+      IsMandatory="False"
+      Field="{Binding ElementName=OptionalEmail, Path=Text}"
+      Pattern="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Pattern}"
+      ToolTip="No match">
+    </wpfToolkit:RegularExpressionValidator>
+    
+    <TextBox
+      x:Name="OptionalEmail"
+      Grid.Column="10"
+      Grid.Row="2"
+      MaxLength="30">
+    </TextBox>
+
+    <TextBlock
+      Grid.Column="12"
+      Grid.Row="2"
+      Text="Between -1 and 1">
+    </TextBlock>
   </Grid>
 </Window>

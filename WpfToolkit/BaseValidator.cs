@@ -164,9 +164,7 @@ namespace Espamatica.WpfToolkit
       bool isValidField1 = ValidateType(field1, type, true, out object? value2);
       bool isValidField2 = ValidateType(field2, type, true, out object? value1);
       bool isValidType = t != default;
-      bool isValidValue1 = ValidateType(field1, type, true, out object? valueValid1);
-      bool isValidValue2 = ValidateType(field2, type, true, out object? valueValid2);
-      bool isValid = isValidField1 && isValidField2 && isValidType && isValidValue1 && isValidValue2;
+      bool isValid = isValidField1 && isValidField2 && isValidType;
 
       if (isValid)
       {
@@ -400,7 +398,7 @@ namespace Espamatica.WpfToolkit
 
             object[]? parameters = value != default ? [fieldStr, value] : default;
 
-            isValid = parameters != default ? ((bool?)method?.Invoke(t, parameters)).GetValueOrDefault() : false;
+            isValid = parameters != default && ((bool?)method?.Invoke(t, parameters)).GetValueOrDefault();
 
             if (isValid)
               value = parameters?[1];
