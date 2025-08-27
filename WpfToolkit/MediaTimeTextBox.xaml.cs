@@ -311,7 +311,7 @@ namespace Espamatica.WpfToolkit
         else if (box == this.SecondsBox)
           factor = TimeSpan.FromSeconds(value).Ticks;
         else if (box == this.FractionsBox)
-          factor = MediaTime.FromFractions(value, this.FractionsPerSecond, this.FractionRoundMode).Ticks;
+          factor = TimeSpan.FromSeconds((double)value / FractionsPerSecond).Ticks;
 
         switch (e.Key)
         {
@@ -527,7 +527,7 @@ namespace Espamatica.WpfToolkit
     /// Time represented by visual values.
     /// Tiempo representado por los valores visuales.
     /// </returns>
-    private long GetVisualTime() => this.GetVisualTime(FractionsPerSecond, FractionRoundMode);
+    private long GetVisualTime() => GetVisualTime(FractionsPerSecond, FractionRoundMode);
 
     /// <summary>
     /// Gets the time from visual values.
@@ -563,7 +563,7 @@ namespace Espamatica.WpfToolkit
       fractions = isFractions ? fractions / fractionsPerSecond : fractions / 1000.0;
       seconds += hours + minutes + fractions;
 
-      return MediaTime.FromFractions(TimeSpan.FromSeconds(seconds).Ticks, fractionsPerSecond, fractionRoundMode).Ticks;
+      return MediaTime.FromFractions(TimeSpan.FromSeconds(seconds).Ticks, fractionsPerSecond, fractionRoundMode).TotalTicks;
     }
 
     /// <summary>
@@ -821,7 +821,7 @@ namespace Espamatica.WpfToolkit
       string minutesMaxLength = FillFormat ? $"{MinutesBox.MaxLength}" : "2";
       string secondsMaxLength = FillFormat ? $"{SecondsBox.MaxLength}" : "2";
       string fractionsMaxLength = FillFormat ? $"{FractionsBox.MaxLength}" : $"{mt.DigitPerFraction}";
-      
+
       switch (TimeFormat)
       {
         case MediaTimeStringFormat.HHmm:
@@ -833,7 +833,7 @@ namespace Espamatica.WpfToolkit
           SecondsBox.Text = string.Format("{0:D" + secondsMaxLength + "}", mt.Seconds);
 
           if (isFractions)
-            FractionsBox.Text = string.Format("{0:D" + fractionsMaxLength + "}", mt.Fractions);
+            FractionsBox.Text = string.Format("{0:D" + fractionsMaxLength + "}", Convert.ToInt64(mt.Fractions));
           else
             FractionsBox.Text = string.Format("{0:D3}", mt.Milliseconds);
           break;
@@ -845,7 +845,7 @@ namespace Espamatica.WpfToolkit
           this.SecondsBox.Text = string.Format("{0:D" + secondsMaxLength + "}", mt.Seconds);
 
           if (isFractions)
-            FractionsBox.Text = string.Format("{0:D" + fractionsMaxLength + "}", mt.Fractions);
+            FractionsBox.Text = string.Format("{0:D" + fractionsMaxLength + "}", Convert.ToInt64(mt.Fractions));
           else
             FractionsBox.Text = string.Format("{0:D3}", mt.Milliseconds);
           break;
@@ -856,7 +856,7 @@ namespace Espamatica.WpfToolkit
           this.SecondsBox.Text = string.Format("{0:D" + secondsMaxLength + "}", mt.TotalSeconds);
 
           if (isFractions)
-            FractionsBox.Text = string.Format("{0:D" + fractionsMaxLength + "}", mt.Fractions);
+            FractionsBox.Text = string.Format("{0:D" + fractionsMaxLength + "}", Convert.ToInt64(mt.Fractions));
           else
             FractionsBox.Text = string.Format("{0:D3}", mt.Milliseconds);
           break;

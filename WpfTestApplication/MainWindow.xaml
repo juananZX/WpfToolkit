@@ -5,12 +5,17 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:local="clr-namespace:WpfTestApplication"
-  xmlns:wpfToolkit="clr-namespace:Espamatica.WpfToolkit;assembly=Espamatica.WpfToolkit"
+  xmlns:wpfToolkit="clr-namespace:Espamatica.WpfToolkit;assembly=Espamatica.WpfToolkit" 
+  d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
   mc:Ignorable="d"
   Title="MainWindow"
   ResizeMode="CanMinimize"
   SizeToContent="WidthAndHeight">
 
+  <Window.DataContext>
+    <local:MainViewModel></local:MainViewModel>
+  </Window.DataContext>
+  
   <Window.Resources>
     <Style
       x:Key="GeneralValidatorStyle"
@@ -76,38 +81,66 @@
       <RowDefinition Height="Auto" />
       <RowDefinition Height="10" />
       <RowDefinition Height="Auto" />
+      <RowDefinition Height="10" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="10" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="10" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="10" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="10" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="10" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="10" />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
     <TextBlock
       Grid.Column="0"
+      Grid.ColumnSpan="15"
       Grid.Row="0"
+      FontSize="18"
+      FontWeight="Bold"
+      Text="Validator">
+    </TextBlock>
+    
+    <TextBlock
+      Grid.Column="0"
+      Grid.Row="2"
       Text="Mandatory text">
     </TextBlock>
 
     <wpfToolkit:FieldValidator
       Grid.Column="1"
-      Grid.Row="0"
+      Grid.Row="2"
       Field="{Binding ElementName=MandatoryText, Path=Text}"
+      IsEnabled="{Binding ElementName=EnableValidatios, Path=IsChecked}"
+      IsValid="{Binding Path=IsValidMandatoryText, Mode=OneWayToSource}"
       ToolTip="This is a mandatory field">
     </wpfToolkit:FieldValidator>
 
     <TextBox
       x:Name="MandatoryText"
       Grid.Column="2"
-      Grid.Row="0"
-      MaxLength="20">
+      Grid.Row="2"
+      MaxLength="20"
+      ToolTip="FieldValidator">
     </TextBox>
 
     <TextBlock
       Grid.Column="4"
-      Grid.Row="0"
+      Grid.Row="2"
       Text="Mandatory short">
     </TextBlock>
 
     <wpfToolkit:TypeValidator
       Grid.Column="5"
-      Grid.Row="0"
+      Grid.Row="2"
       Field="{Binding ElementName=MandatoryInt16, Path=Text}"
+      IsEnabled="{Binding ElementName=EnableValidatios, Path=IsChecked}"
+      IsValid="{Binding Path=IsValidMandatoryShort, Mode=OneWayToSource}"
       ToolTip="This is a mandatory Int16 field"
       TypeField="System.Int16">
     </wpfToolkit:TypeValidator>
@@ -115,21 +148,24 @@
     <TextBox
       x:Name="MandatoryInt16"
       Grid.Column="6"
-      Grid.Row="0"
-      MaxLength="6">
+      Grid.Row="2"
+      MaxLength="6"
+      ToolTip="Mandatory TypeValidator">
     </TextBox>
 
     <TextBlock
       Grid.Column="8"
-      Grid.Row="0"
+      Grid.Row="2"
       Text="Optional short">
     </TextBlock>
 
     <wpfToolkit:TypeValidator
       Grid.Column="9"
-      Grid.Row="0"
+      Grid.Row="2"
       Field="{Binding ElementName=OptionalInt16, Path=Text}"
+      IsEnabled="{Binding ElementName=EnableValidatios, Path=IsChecked}"
       IsMandatory="False"
+      IsValid="{Binding Path=IsValidOptionalShort, Mode=OneWayToSource}"
       ToolTip="This is a optional Int16 field"
       TypeField="System.Int16">
     </wpfToolkit:TypeValidator>
@@ -137,68 +173,77 @@
     <TextBox
       x:Name="OptionalInt16"
       Grid.Column="10"
-      Grid.Row="0"
-      MaxLength="6">
+      Grid.Row="2"
+      MaxLength="6"
+      ToolTip="Optional TypeValidator">
     </TextBox>
 
     <TextBlock
       Grid.Column="12"
-      Grid.Row="0"
+      Grid.Row="2"
       Text="Mandatory %">
     </TextBlock>
 
     <wpfToolkit:FieldValidator
-     Grid.Column="13"
-     Grid.Row="0"
-     Field="{Binding ElementName=MandatoryPercentage, Path=Text}"
-     ToolTip="This is a mandatory percentage field">
+      Grid.Column="13"
+      Grid.Row="2"
+      Field="{Binding ElementName=MandatoryPercentage, Path=Text}"
+      IsEnabled="{Binding ElementName=EnableValidatios, Path=IsChecked}"
+      IsValid="{Binding Path=IsValidMandatoryPercentage, Mode=OneWayToSource}"
+      ToolTip="This is a mandatory percentage field">
     </wpfToolkit:FieldValidator>
 
     <wpfToolkit:NumericTextBox
       x:Name="MandatoryPercentage"
       Grid.Column="14"
-      Grid.Row="0"
+      Grid.Row="2"
       Decimals="2"
       MinValue="0"
-      MaxValue="100">
+      MaxValue="100"
+      ToolTip="FieldValidator and NumericTextBox">
     </wpfToolkit:NumericTextBox>
 
     <TextBlock
       Grid.Column="0"
-      Grid.Row="2"
+      Grid.Row="4"
       Text="Mandatory date from">
     </TextBlock>
 
     <wpfToolkit:RangeValidator
       Grid.Column="1"
-      Grid.Row="2"
+      Grid.Row="4"
+      Field="{Binding ElementName=MandatoryDateFrom, Path=Text}"
+      IsEnabled="{Binding ElementName=EnableValidatios, Path=IsChecked}"
+      IsValid="{Binding Path=IsValidMandatoryDateFrom, Mode=OneWayToSource}"
       MinValue="01/01/1900"
       MaxValue="31/12/2099"
       ToolTip="Date between 01/01/1900 and 31/12/2099"
-      TypeField="System.DateTime"
-      Field="{Binding ElementName=MandatoryDateFrom, Path=Text}">
+      TypeField="System.DateTime">
     </wpfToolkit:RangeValidator>
     
     <TextBox
       x:Name="MandatoryDateFrom"
       Grid.Column="2"
-      Grid.Row="2"
-      MaxLength="10">
+      Grid.Row="4"
+      MaxLength="10"
+      ToolTip="Mandatory RangeValidator">
     </TextBox>
 
     <TextBlock
       Grid.Column="4"
-      Grid.Row="2"
+      Grid.Row="4"
       Text="Optional date to">
     </TextBlock>
 
     <wpfToolkit:ComparisonValidator
       Grid.Column="5"
-      Grid.Row="2"
+      Grid.Row="4"
       IsMandatory="False"
       ComparisonOperator="EqualOrGraterThan"
       Field="{Binding ElementName=MandatoryDateFrom, Path=Text}"
       Field2="{Binding ElementName=OptionalDateTo, Path=Text}"
+      IsEnabled="{Binding ElementName=EnableValidatios, Path=IsChecked}"
+      IsValid="{Binding Path=IsValidOptionalDateTo, Mode=OneWayToSource}"
       ToolTip="Date greater than or equal to 'Mandatory date from'"
       TypeField="System.DateTime">
     </wpfToolkit:ComparisonValidator>
@@ -206,43 +251,49 @@
     <TextBox
       x:Name="OptionalDateTo"
       Grid.Column="6"
-      Grid.Row="2"
-      MaxLength="10">
+      Grid.Row="4"
+      MaxLength="10"
+      ToolTip="Optional ComparisonValidator">
     </TextBox>
 
     <TextBlock
       Grid.Column="8"
-      Grid.Row="2"
+      Grid.Row="4"
       Text="Optional e-mail">
     </TextBlock>
 
     <wpfToolkit:RegularExpressionValidator
       Grid.Column="9"
-      Grid.Row="2"
-      IsMandatory="False"
+      Grid.Row="4"
       Field="{Binding ElementName=OptionalEmail, Path=Text}"
-      Pattern="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=EmailPattern}"
-      ToolTip="No match">
+      IsEnabled="{Binding ElementName=EnableValidatios, Path=IsChecked}"
+      IsMandatory="False"
+      IsValid="{Binding Path=IsValidOptionalEmail, Mode=OneWayToSource}"
+      Pattern="{Binding Path=EmailPattern}"
+      ToolTip="Invalid e-mail">
     </wpfToolkit:RegularExpressionValidator>
     
     <TextBox
       x:Name="OptionalEmail"
       Grid.Column="10"
-      Grid.Row="2"
-      MaxLength="30">
+      Grid.Row="4"
+      MaxLength="30"
+      ToolTip="Optional RegularExpressionValidator">
     </TextBox>
 
     <TextBlock
       Grid.Column="12"
-      Grid.Row="2"
+      Grid.Row="4"
       Text="Between -1 and 1">
     </TextBlock>
 
     <wpfToolkit:RangeValidator
       Grid.Column="13"
-      Grid.Row="2"
+      Grid.Row="4"
       Field="{Binding ElementName=Between1and1, Path=Text}"
+      IsEnabled="{Binding ElementName=EnableValidatios, Path=IsChecked}"
       IsMandatory="False"
+      IsValid="{Binding Path=IsValidBetween1and1, Mode=OneWayToSource}"
       MaxValue="1"
       MinValue="-1"
       ToolTip="Value between -1 and 1"
@@ -252,61 +303,200 @@
     <TextBox
       x:Name="Between1and1"
       Grid.Column="14"
-      Grid.Row="2"
-      MaxLength="20">
+      Grid.Row="4"
+      MaxLength="20"
+      ToolTip="Optional RangeValidator">
     </TextBox>
 
     <TextBlock
       Grid.Column="0"
-      Grid.Row="4"
-      Text="byte">
+      Grid.ColumnSpan="15"
+      Grid.Row="6"
+      FontSize="18"
+      FontWeight="Bold"
+      Text="NumericTexBox">
+    </TextBlock>
+    
+    <TextBlock
+      Grid.Column="0"
+      Grid.Row="8"
+      Text="byte (8 bits)">
     </TextBlock>
 
     <wpfToolkit:NumericTextBox
       Grid.Column="2"
-      Grid.Row="4"
+      Grid.Row="8"
       MinValue="0"
-      MaxValue="255">
+      MaxValue="255"
+      ToolTip="Between 0 and 255">
     </wpfToolkit:NumericTextBox>
 
     <TextBlock
       Grid.Column="4"
-      Grid.Row="4"
-      Text="short">
+      Grid.Row="8"
+      Text="short (16 bits)">
     </TextBlock>
 
     <wpfToolkit:NumericTextBox
       Grid.Column="6"
-      Grid.Row="4"
+      Grid.Row="8"
       MinValue="-32768"
-      MaxValue="32767">
+      MaxValue="32767"
+      ToolTip="Between -32768 and 32767">
     </wpfToolkit:NumericTextBox>
 
     <TextBlock
       Grid.Column="8"
-      Grid.Row="4"
-      Text="int">
+      Grid.Row="8"
+      Text="int (32 bits)">
     </TextBlock>
 
     <wpfToolkit:NumericTextBox
       Grid.Column="10"
-      Grid.Row="4"
+      Grid.Row="8"
       MinValue="-2147483648"
-      MaxValue="2147483647">
+      MaxValue="2147483647"
+      ToolTip="Between -2147483648 and 2147483647">
     </wpfToolkit:NumericTextBox>
 
     <TextBlock
       Grid.Column="12"
-      Grid.Row="4"
-      Text="Currency">
+      Grid.Row="8"
+      Text="Currency (10.3)">
     </TextBlock>
 
     <wpfToolkit:NumericTextBox
       Grid.Column="14"
-      Grid.Row="4"
+      Grid.Row="8"
       Decimals="3"
       MinValue="0"
-      MaxValue="9999999999">
+      MaxValue="9999999999"
+      ToolTip="Between 0 and 9999999999">
     </wpfToolkit:NumericTextBox>
+
+    <TextBlock
+      Grid.Column="0"
+      Grid.ColumnSpan="15"
+      Grid.Row="10"
+      FontSize="18"
+      FontWeight="Bold"
+      Text="RegexTexBox (internal validations)">
+    </TextBlock>
+    
+    <TextBlock
+      Grid.Column="0"
+      Grid.Row="12"
+      Text="Web site">
+    </TextBlock>
+
+    <wpfToolkit:RegexTextBox
+      Grid.Column="2"
+      Grid.ColumnSpan="5"
+      Grid.Row="12"
+      IsValid="{Binding Path=IsValidWebSitePattern, Mode=OneWayToSource}"
+      Pattern="{Binding Path=WebSitePattern}">
+    </wpfToolkit:RegexTextBox>
+
+    <TextBlock
+      Grid.Column="8"
+      Grid.Row="12"
+      Text="E-mail">
+    </TextBlock>
+
+    <wpfToolkit:RegexTextBox
+      Grid.Column="10"
+      Grid.ColumnSpan="5"
+      Grid.Row="12"
+      IsValid="{Binding Path=IsValidEmailPattern, Mode=OneWayToSource}"
+      Pattern="{Binding Path=EmailPattern}">
+    </wpfToolkit:RegexTextBox>
+
+    <TextBlock
+      Grid.Column="0"
+      Grid.ColumnSpan="15"
+      Grid.Row="14"
+      FontSize="18"
+      FontWeight="Bold"
+      Text="MediaTimeTexBox">
+    </TextBlock>
+
+    <TextBlock
+      Grid.Column="0"
+      Grid.Row="16"
+      Text="HH:mm:ss:mmm">
+    </TextBlock>
+    
+    <wpfToolkit:MediaTimeTextBox
+      Grid.Column="2"
+      Grid.Row="16"
+      FractionsPerSecond="1000"
+      TimeFormat="HHmmssmmm">
+    </wpfToolkit:MediaTimeTextBox>
+
+    <TextBlock
+      Grid.Column="4"
+      Grid.Row="16"
+      Text="HH:mm:ss:ff">
+    </TextBlock>
+
+    <wpfToolkit:MediaTimeTextBox
+      Grid.Column="6"
+      Grid.Row="16"
+      FractionsPerSecond="25"
+      TimeFormat="HHmmssff"
+      ToolTip="25 frames per second"
+      Width="95">
+    </wpfToolkit:MediaTimeTextBox>
+
+    <TextBlock
+      Grid.Column="8"
+      Grid.Row="16"
+      Text="ss.mmm">
+    </TextBlock>
+
+    <wpfToolkit:MediaTimeTextBox
+      Grid.Column="10"
+      Grid.Row="16"
+      FractionsPerSecond="1000"
+      TimeFormat="ssmmm"
+      Width="50">
+    </wpfToolkit:MediaTimeTextBox>
+
+    <TextBlock
+      Grid.Column="12"
+      Grid.Row="16"
+      Text="HH:mm">
+    </TextBlock>
+
+    <wpfToolkit:MediaTimeTextBox
+      Grid.Column="14"
+      Grid.Row="16"
+      FractionsPerSecond="1000"
+      TimeFormat="HHmm"
+      Width="40">
+    </wpfToolkit:MediaTimeTextBox>
+
+    <Button
+      Grid.Column="0"
+      Grid.Row="18"
+      Content="Accept"
+      Command="{Binding Path=AcceptCommand}">
+    </Button>
+    
+    <Button
+      Grid.Column="2"
+      Grid.Row="18"
+      Content="Cancel"
+      Command="{Binding Path=CancelCommand}">
+    </Button>
+
+    <CheckBox
+      x:Name="EnableValidatios"
+      Grid.Column="4"
+      Grid.ColumnSpan="3"
+      Grid.Row="18"
+      IsChecked="True"
+      Content="Enable validations">
+    </CheckBox>
   </Grid>
 </Window>

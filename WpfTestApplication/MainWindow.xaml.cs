@@ -11,8 +11,5 @@ namespace WpfTestApplication
     {
       InitializeComponent();
     }
-
-    public string EmailPattern => @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
-    public string WebSitePattern => @"^http(s)?://([\w-]+.)+[\w-]+(/[\w- ./?%&=])?$";
   }
 }

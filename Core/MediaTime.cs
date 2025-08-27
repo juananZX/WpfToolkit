@@ -219,8 +219,13 @@ namespace Espamatica.Core
       readonly get => fractions;
       set
       {
+        if (double.IsNaN(value)) value = 0;
+
         if (value != fractions)
+        {
+          fractions = value;
           Milliseconds = (int)Math.Truncate(value * MillisecondsPerFraction);
+        }
       }
     }
 
@@ -1091,6 +1096,7 @@ namespace Espamatica.Core
       remainder -= seconds * TicksSecond;
 
       fractions = ((double)remainder / TicksMillisecond) / MillisecondsPerFraction;
+      fractions = double.IsNaN(fractions) ? 0.0 : fractions;
 
       milliseconds = (int)((remainder - (remainder % TicksMillisecond)) / TicksMillisecond);
       remainder -= milliseconds * TicksMillisecond;

@@ -30,16 +30,6 @@ namespace Espamatica.WpfToolkit
     /// Obtiene o establece el valor máximo.
     /// </summary>
     public decimal MinValue { get; set; } = decimal.MinValue;
-
-    /// <summary>
-    /// Obtiene el valor decimal.
-    /// </summary>
-    public decimal ValueDecimal { get; private set; }
-
-    /// <summary>
-    /// Obtiene el valor entero.
-    /// </summary>
-    public long ValueLong { get; private set; }
     #endregion
 
     #region Private methods
@@ -79,17 +69,6 @@ namespace Espamatica.WpfToolkit
         key == Key.Subtract || key == Key.Add ||
         key == Key.OemMinus || key == Key.OemPlus;
     }
-
-    /// <summary>
-		/// Asigna los valores.
-		/// </summary>
-		private void SetValues()
-    {
-      _ = decimal.TryParse(Text, CultureInfo.CurrentUICulture, out decimal valD);
-
-      ValueDecimal = valD;
-      ValueLong = Convert.ToInt64(Math.Ceiling(valD));
-    } // SetValues
     #endregion
 
     #region Listeners
@@ -119,7 +98,6 @@ namespace Espamatica.WpfToolkit
       char comma = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator[0];
       string text = decimal.TryParse(Text.Replace('.', comma).Replace(',', comma), out _) ? Text.Replace('.', comma).Replace(',', comma) : string.Empty;
       SetCurrentValue(TextProperty, text);
-      SetValues();
       SelectionStart = selStart;
       e.Handled = true;
     }
