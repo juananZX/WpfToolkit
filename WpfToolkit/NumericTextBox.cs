@@ -17,22 +17,37 @@ namespace Espamatica.WpfToolkit
 
     #region Public properties
     /// <summary>
+    /// Gets or sets the number of decimal places.
     /// Obtiene o establece el número de decimales.
     /// </summary>
     public byte Decimals { get; set; }
 
     /// <summary>
+    /// Gets or sets the maximum value.
     /// Obtiene o establece el valor máximo.
     /// </summary>
     public decimal MaxValue { get; set; } = decimal.MaxValue;
 
     /// <summary>
-    /// Obtiene o establece el valor máximo.
+    /// Gets or sets the minimum value.
+    /// Obtiene o establece el valor mínimo.
     /// </summary>
     public decimal MinValue { get; set; } = decimal.MinValue;
     #endregion
 
     #region Private methods
+    /// <summary>
+    /// Gets whether it is a control key.
+    /// Obtiene si es un tecla de control.
+    /// </summary>
+    /// <param name="key">
+    /// Specified key.
+    /// Tecla especificada.
+    /// </param>
+    /// <returns>
+    /// If key is a key assigned to a control key, true; otherwise, false.
+    /// Si key es una tecla asignada a una tecla de control true, en caso contario false.
+    /// </returns>
     private static bool IsControlKey(Key key)
     {
       return key == Key.Delete || key == Key.Back ||
@@ -44,11 +59,18 @@ namespace Espamatica.WpfToolkit
     }
 
     /// <summary>
+    /// Gets whether Key is a key assigned to a digit.
     /// Obtiene si Key es una tecla asignada a un dígito.
     /// </summary>
-    /// <param name="key">Tecla especificada.</param>
-    /// <returns>Si Key es una tecla asignada a un dígito true, en caso contario false.</returns>
-    private static bool IsNumericKey(Key key)
+    /// <param name="key">
+    /// Specified key.
+    /// Tecla especificada.
+    /// </param>
+    /// <returns>
+    /// If key is a key assigned to a digit, true; otherwise, false.
+    /// Si key es una tecla asignada a un dígito true, en caso contario false.
+    /// </returns>
+    private static bool IsDigitKey(Key key)
     {
       return key == Key.D0 || key == Key.NumPad0 ||
         key == Key.D1 || key == Key.NumPad1 ||
@@ -62,6 +84,18 @@ namespace Espamatica.WpfToolkit
         key == Key.D9 || key == Key.NumPad9;
     }
 
+    /// <summary>
+    /// Gets whether Key is a key assigned to another valid key.
+    /// Obtiene si Key es una tecla asignada a otra tecla válida.
+    /// </summary>
+    /// <param name="key">
+    /// Specified key.
+    /// Tecla especificada.
+    /// </param>
+    /// <returns>
+    /// If key is a key assigned to another valid key, true; otherwise, false.
+    /// Si key es una tecla asignada a otra tecla válida true, en caso contario false.
+    /// </returns>
     private static bool IsOtherKey(Key key)
     {
       return key == Key.OemComma || key == Key.Decimal ||
@@ -75,7 +109,7 @@ namespace Espamatica.WpfToolkit
     private void NumericTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
     {
       if (IsControlKey(e.Key)) return;
-      e.Handled = !IsNumericKey(e.Key) && !IsOtherKey(e.Key);
+      e.Handled = !IsDigitKey(e.Key) && !IsOtherKey(e.Key);
       if (e.Handled) return;
     }
 

@@ -288,6 +288,7 @@ namespace Espamatica.Core
 
     /// <summary>
     /// Gets the number of milliseconds per fraction.
+    /// Obiene o establece los milisegundos por fracción.
     /// </summary>
     public double MillisecondsPerFraction
     {

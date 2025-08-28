@@ -302,16 +302,7 @@ namespace Espamatica.WpfToolkit
 
       if (e.OriginalSource is TextBox box && !IsReadOnly)
       {
-        long factor = 0L, value = 1L;
-
-        if (box == HoursBox)
-          factor = TimeSpan.FromHours(value).Ticks;
-        else if (box == this.MinutesBox)
-          factor = TimeSpan.FromMinutes(value).Ticks;
-        else if (box == this.SecondsBox)
-          factor = TimeSpan.FromSeconds(value).Ticks;
-        else if (box == this.FractionsBox)
-          factor = TimeSpan.FromSeconds((double)value / FractionsPerSecond).Ticks;
+        long factor = GetFactor(box);
 
         switch (e.Key)
         {
@@ -492,6 +483,34 @@ namespace Espamatica.WpfToolkit
     }
 
     /// <summary>
+    /// Gets the variation factor in ticks according to the text box.
+    /// Obtiene el factor de variación en ticks según la caja de texto.
+    /// </summary>
+    /// <param name="box">
+    /// Specified text box.
+    /// Caja de texto especificada.
+    /// </param>
+    /// <returns>
+    /// Variation factor in ticks.
+    /// Factor de variación en ticks.
+    /// </returns>
+    private long GetFactor(TextBox box)
+    {
+      long factor = 0L, value = 1L;
+
+      if (box == HoursBox)
+        factor = TimeSpan.FromHours(value).Ticks;
+      else if (box == MinutesBox)
+        factor = TimeSpan.FromMinutes(value).Ticks;
+      else if (box == SecondsBox)
+        factor = TimeSpan.FromSeconds(value).Ticks;
+      else if (box == FractionsBox)
+        factor = TimeSpan.FromSeconds((double)value / FractionsPerSecond).Ticks;
+
+      return factor;
+    }
+
+    /// <summary>
     /// Gets the string representation of the time.
     /// Obtiene la representación en cadena del tiempo.
     /// </summary>
@@ -661,9 +680,9 @@ namespace Espamatica.WpfToolkit
     /// </param>
     private void OnTextChanged(DependencyPropertyChangedEventArgs e)
     {
-      if (!this.changingTime)
+      if (!changingTime)
       {
-        this.changingTime = true;
+        changingTime = true;
 
         if (MediaTime.TryParse($"{e.NewValue}", FractionsPerSecond, out MediaTime mts, TimeFormat, FractionRoundMode, FractionSeparator))
           internalTime = mts.Ticks;
@@ -797,7 +816,7 @@ namespace Espamatica.WpfToolkit
     /// Sets the text.
     /// Asigna el texto.
     /// </summary>
-    private void SetText() => this.SetCurrentValue(TextProperty, GetTimeString());
+    private void SetText() => SetCurrentValue(TextProperty, GetTimeString());
 
     /// <summary>
     /// Sets the time.
@@ -815,8 +834,8 @@ namespace Espamatica.WpfToolkit
     /// </summary>
     private void SetVisualTime()
     {
-      MediaTime mt = MediaTime.FromFractions(this.internalTime, this.FractionsPerSecond, this.FractionRoundMode);
-      bool isFractions = TimeFormat == MediaTimeStringFormat.HHmmssff || this.TimeFormat == MediaTimeStringFormat.mmssff || this.TimeFormat == MediaTimeStringFormat.ssff;
+      MediaTime mt = MediaTime.FromFractions(internalTime, FractionsPerSecond, FractionRoundMode);
+      bool isFractions = TimeFormat == MediaTimeStringFormat.HHmmssff || TimeFormat == MediaTimeStringFormat.mmssff || TimeFormat == MediaTimeStringFormat.ssff;
       string hoursMaxLength = FillFormat ? $"{HoursBox.MaxLength}" : "2";
       string minutesMaxLength = FillFormat ? $"{MinutesBox.MaxLength}" : "2";
       string secondsMaxLength = FillFormat ? $"{SecondsBox.MaxLength}" : "2";
@@ -840,9 +859,9 @@ namespace Espamatica.WpfToolkit
         case MediaTimeStringFormat.mmss:
         case MediaTimeStringFormat.mmssff:
         case MediaTimeStringFormat.mmssmmm:
-          this.HoursBox.Text = string.Format("{0:D" + hoursMaxLength + "}", "0");
-          this.MinutesBox.Text = string.Format("{0:D" + minutesMaxLength + "}", mt.TotalMinutes);
-          this.SecondsBox.Text = string.Format("{0:D" + secondsMaxLength + "}", mt.Seconds);
+          HoursBox.Text = string.Format("{0:D" + hoursMaxLength + "}", "0");
+          MinutesBox.Text = string.Format("{0:D" + minutesMaxLength + "}", mt.TotalMinutes);
+          SecondsBox.Text = string.Format("{0:D" + secondsMaxLength + "}", mt.Seconds);
 
           if (isFractions)
             FractionsBox.Text = string.Format("{0:D" + fractionsMaxLength + "}", Convert.ToInt64(mt.Fractions));
@@ -851,9 +870,9 @@ namespace Espamatica.WpfToolkit
           break;
         case MediaTimeStringFormat.ssff:
         case MediaTimeStringFormat.ssmmm:
-          this.HoursBox.Text = string.Format("{0:D" + hoursMaxLength + "}", "0");
-          this.MinutesBox.Text = string.Format("{0:D" + minutesMaxLength + "}", "0");
-          this.SecondsBox.Text = string.Format("{0:D" + secondsMaxLength + "}", mt.TotalSeconds);
+          HoursBox.Text = string.Format("{0:D" + hoursMaxLength + "}", "0");
+          MinutesBox.Text = string.Format("{0:D" + minutesMaxLength + "}", "0");
+          SecondsBox.Text = string.Format("{0:D" + secondsMaxLength + "}", mt.TotalSeconds);
 
           if (isFractions)
             FractionsBox.Text = string.Format("{0:D" + fractionsMaxLength + "}", Convert.ToInt64(mt.Fractions));
@@ -863,18 +882,6 @@ namespace Espamatica.WpfToolkit
       }
     }
 
-    /// <summary>
-    /// TextBox TextChanged event handler.
-    /// Controlador del evento TextChanged de TextBox.
-    /// </summary>
-    /// <param name="sender">
-    /// Object that fires the event.
-    /// Objeto que desencadena el evento.
-    /// </param>
-    /// <param name="e">
-    /// Event details.
-    /// Datos del evento.
-    /// </param>
     private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
       if (AutoValidateTime)
@@ -890,18 +897,6 @@ namespace Espamatica.WpfToolkit
       }
     }
 
-    /// <summary>
-    /// TextBox PreviewKeyDown event handler.
-    /// Controlador del evento PreviewKeyDown de TextBox.
-    /// </summary>
-    /// <param name="sender">
-    /// Object that fires the event.
-    /// Objeto que desencadena el evento.
-    /// </param>
-    /// <param name="e">
-    /// Event details.
-    /// Datos del evento.
-    /// </param>
     private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
     {
       TextBox? box = e.OriginalSource as TextBox ?? e.Source as TextBox;
@@ -948,6 +943,10 @@ namespace Espamatica.WpfToolkit
             box.SelectionStart = 0;
             box.SelectionLength = box.Text.Length;
             break;
+          case Key.End:
+          case Key.Home:
+          case Key.OemFinish:
+            break;
           default:
             e.Handled = true;
             break;
@@ -955,38 +954,17 @@ namespace Espamatica.WpfToolkit
       }
     }
 
-    /// <summary>
-    /// TextBox PreviewMouseWheel event handler.
-    /// Controlador del evento PreviewMouseWheel de TextBox.
-    /// </summary>
-    /// <param name="sender">
-    /// Object that fires the event.
-    /// Objeto que desencadena el evento.
-    /// </param>
-    /// <param name="e">
-    /// Event details.
-    /// Datos del evento.
-    /// </param>
     private void TextBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
-      if (!this.IsReadOnly)
+      if (!IsReadOnly)
       {
-        long newTime = 0L;
-        long oldTime = 0L;
+        long newTime;
+        long oldTime;
         TextBox? box = e.OriginalSource as TextBox ?? e.Source as TextBox;
 
         if (box != null)
         {
-          long factor = 0L, value = 1L;
-
-          if (box == this.HoursBox)
-            factor = TimeSpan.FromHours(value).Ticks;
-          else if (box == this.MinutesBox)
-            factor = TimeSpan.FromMinutes(value).Ticks;
-          else if (box == this.SecondsBox)
-            factor = TimeSpan.FromSeconds(value).Ticks;
-          else if (box == this.FractionsBox)
-            factor = MediaTime.FromFractions(value, FractionsPerSecond, FractionRoundMode).Ticks;
+          long factor = GetFactor(box);
 
           if (e.Delta < 0)
           {

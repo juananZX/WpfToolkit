@@ -48,6 +48,18 @@ namespace Espamatica.WpfToolkit
     #endregion
 
     #region Private methods
+    /// <summary>
+    /// Callback for the IsValid property.
+    /// Callback para la IsValid Pattern.
+    /// </summary>
+    /// <param name="sender">
+    /// Object that fires the event.
+    /// Objeto que desencadena el evento.
+    /// </param>
+    /// <param name="e">
+    /// Event details.
+    /// Datos del evento.
+    /// </param>
     private static void OnIsValidChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
       if (sender is RegexTextBox tb)
@@ -55,8 +67,8 @@ namespace Espamatica.WpfToolkit
     }
 
     /// <summary>
-    /// Callback for the PatternProperty property.
-    /// Callback para la propiedad PatternProperty.
+    /// Callback for the Pattern property.
+    /// Callback para la propiedad Pattern.
     /// </summary>
     /// <param name="sender">
     /// Object that fires the event.
@@ -86,11 +98,19 @@ namespace Espamatica.WpfToolkit
     /// </param>
     private void RegexTextBox_TextChanged(object sender, TextChangedEventArgs e) => ValidateText();
 
+    /// <summary>
+    /// Callback for the IsValid property.
+    /// Callback para la IsValid Pattern.
+    /// </summary>
+    /// <param name="e">
+    /// Event details.
+    /// Datos del evento.
+    /// </param>
     private void OnIsValidChanged(DependencyPropertyChangedEventArgs e) => SetCurrentValue(BackgroundProperty, (bool)e.NewValue ? currentBackground : Brushes.LightCoral);
 
     /// <summary>
-    /// Callback for the PatternProperty property.
-    /// Callback para la propiedad PatternProperty.
+    /// Callback for the Pattern property.
+    /// Callback para la propiedad Pattern.
     /// </summary>
     /// <param name="e">
     /// Event details.
@@ -104,20 +124,15 @@ namespace Espamatica.WpfToolkit
     /// </summary>
     private void ValidateText()
     {
+      bool isValid = true;
+
       if (!string.IsNullOrWhiteSpace(this.Pattern) && !string.IsNullOrWhiteSpace(this.Text))
       {
-        try
-        {
-            SetValue(IsValidProperty, Regex.IsMatch(this.Text, this.Pattern));
-        }
-        catch
-        {
-          // Do nothing if the regular expression is invalid.
-          // No hacer nada si la expresión regular no es válida.
-        }
+        try { isValid = Regex.IsMatch(this.Text, this.Pattern); }
+        catch { isValid = false; }
       }
-      else
-        SetValue(IsValidProperty, true);
+        
+      SetValue(IsValidProperty, isValid);
     }
     #endregion
   }

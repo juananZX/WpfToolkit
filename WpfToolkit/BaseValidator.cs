@@ -1,12 +1,11 @@
-﻿using System.ComponentModel;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace Espamatica.WpfToolkit
 {
-  public abstract class BaseValidator : TextBlock, INotifyPropertyChanged
+  public abstract class BaseValidator : TextBlock
   {
     #region Consts
     private const string CompareToMethod = "CompareTo";
@@ -34,10 +33,6 @@ namespace Espamatica.WpfToolkit
       Initialized += (o, e) => { Validate(); };
       IsEnabledChanged += (o, e) => { Validate(); OnIsValidChanged(); };
     }
-    #endregion
-
-    #region Public Events
-    public event PropertyChangedEventHandler? PropertyChanged;
     #endregion
 
     #region Public properties
@@ -430,18 +425,6 @@ namespace Espamatica.WpfToolkit
       BaseValidator? validator = sender as BaseValidator;
       if (validator != default)
         validator.OnIsValidChanged();
-    }
-
-    /// <summary>
-    /// Notifica el cambio de valor en una propiedad.
-    /// </summary>
-    /// <param name="propertyName">Nombre de la propiedad de la que cambia el valor.</param>
-    private void NotifyPropertyChanges(string propertyName)
-    {
-      if (PropertyChanged != default)
-      {
-        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-      }
     }
 
     /// <summary>

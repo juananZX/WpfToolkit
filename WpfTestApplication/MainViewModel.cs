@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace WpfTestApplication
 {
@@ -10,8 +10,17 @@ namespace WpfTestApplication
     public event PropertyChangedEventHandler? PropertyChanged;
     #endregion
 
+    #region Constructors
+    public MainViewModel()
+    {
+      entity = new Entity();
+    }
+    #endregion
+
     #region Commands
-    public RelayCommand<object> AcceptCommand => new(ExecuteAccept, i => CanAccept());
+    public RelayCommand<object> AcceptCommand => new(i => MessageBox.Show("Accepted"), i => CanAccept());
+
+    public RelayCommand<object> CancelCommand => new(i => Entity = new Entity());
     #endregion
 
     #region Properties
@@ -49,7 +58,7 @@ namespace WpfTestApplication
       get => isValidMandatoryDateFrom;
       set { isValidMandatoryDateFrom = value; NotifyPropertyChanged(); }
     }
-    
+
     private bool isValidOptionalDateTo;
     public bool IsValidOptionalDateTo
     {
@@ -99,39 +108,30 @@ namespace WpfTestApplication
       set { webSitePattern = value; NotifyPropertyChanged(); }
     }
 
-    private Entity? entity;
-    public Entity? Entity
+    private Entity entity;
+    public Entity Entity
     {
       get { return entity; }
       set { entity = value; NotifyPropertyChanged(); }
     }
-
     #endregion
 
     #region Private methods
     private bool CanAccept()
     {
-      return IsValidMandatoryText 
-        && IsValidMandatoryShort 
-        && IsValidOptionalShort 
-        && IsValidMandatoryPercentage 
-        && IsValidMandatoryDateFrom 
-        && IsValidOptionalDateTo 
-        && IsValidOptionalEmail 
-        && IsValidBetween1and1 
-        && IsValidWebSitePattern 
+      return IsValidMandatoryText
+        && IsValidMandatoryShort
+        && IsValidOptionalShort
+        && IsValidMandatoryPercentage
+        && IsValidMandatoryDateFrom
+        && IsValidOptionalDateTo
+        && IsValidOptionalEmail
+        && IsValidBetween1and1
+        && IsValidWebSitePattern
         && IsValidEmailPattern;
     }
 
-    private void ExecuteAccept(object param)
-    {
-      Debug.WriteLine("Accepted");
-      System.Windows.MessageBox.Show("Accepted");
-    }
-    private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-    {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+    private void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     #endregion
   }
 }
