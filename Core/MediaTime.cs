@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Espamatica.Core
+namespace Espamatica.Media
 {
   /// <summary>
   /// Structure for multimedia time management.

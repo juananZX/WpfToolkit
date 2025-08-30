@@ -1,4 +1,4 @@
-﻿namespace Espamatica.Core
+﻿namespace Espamatica.Media
 {
   /// <summary>
   /// Fraction rounding mode.

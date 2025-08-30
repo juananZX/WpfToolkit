@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\Core\Espamatica.Media.csproj" />
     <ProjectReference Include="..\WpfToolkit\WpfToolkit.csproj" />
   </ItemGroup>
 

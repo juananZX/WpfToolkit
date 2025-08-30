@@ -10,8 +10,8 @@ namespace WpfTestApplication
   {
     #region Fields
 
-    readonly Action<T> _execute = null;
-    readonly Predicate<T> _canExecute = null;
+    readonly Action<T>? _execute = null;
+    readonly Predicate<T>? _canExecute = null;
 
     #endregion
 
@@ -32,19 +32,16 @@ namespace WpfTestApplication
     /// </summary>
     /// <param name="execute">The execution logic.</param>
     /// <param name="canExecute">The execution status logic.</param>
-    public RelayCommand(Action<T> execute, Predicate<T> canExecute)
+    public RelayCommand(Action<T> execute, Predicate<T>? canExecute)
     {
-      if (execute == null)
-        throw new ArgumentNullException("execute");
+      ArgumentNullException.ThrowIfNull(execute);
 
       _execute = execute;
       _canExecute = canExecute;
     }
-
     #endregion
 
     #region ICommand Members
-
     ///<summary>
     ///Defines the method that determines whether the command can execute in its current state.
     ///</summary>
@@ -52,15 +49,15 @@ namespace WpfTestApplication
     ///<returns>
     ///true if this command can be executed; otherwise, false.
     ///</returns>
-    public bool CanExecute(object parameter)
+    public bool CanExecute(object? parameter)
     {
-      return _canExecute == null || _canExecute((T)parameter);
+      return _canExecute == null || (_canExecute?.Invoke((T)(parameter ?? new object())) ?? false);
     }
 
     ///<summary>
     ///Occurs when changes occur that affect whether or not the command should execute.
     ///</summary>
-    public event EventHandler CanExecuteChanged
+    public event EventHandler? CanExecuteChanged
     {
       add { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
@@ -70,9 +67,9 @@ namespace WpfTestApplication
     ///Defines the method to be called when the command is invoked.
     ///</summary>
     ///<param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to <see langword="null" />.</param>
-    public void Execute(object parameter)
+    public void Execute(object? parameter)
     {
-      _execute((T)parameter);
+      _execute?.Invoke((T)(parameter ?? new object()));
     }
 
     #endregion

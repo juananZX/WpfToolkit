@@ -1,4 +1,4 @@
-﻿using Espamatica.Core;
+﻿using Espamatica.Media;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
