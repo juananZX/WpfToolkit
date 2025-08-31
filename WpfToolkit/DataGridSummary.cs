@@ -66,6 +66,8 @@ namespace Espamatica.WpfToolkit
         newDataGrid.ColumnReordered += OwnerDataGrid_ColumnReordered;
         newDataGrid.LayoutUpdated += OwnerDataGrid_LayoutUpdated;
         newDataGrid.Loaded += OwnerDataGrid_Loaded;
+        newDataGrid.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+        newDataGrid.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
       }
     }
     #endregion
@@ -82,6 +84,8 @@ namespace Espamatica.WpfToolkit
 
       panel = new StackPanel { Orientation = Orientation.Horizontal };
       AddChild(panel);
+
+      HorizontalAlignment = HorizontalAlignment.Left;
     }
     #endregion
 
@@ -93,7 +97,8 @@ namespace Espamatica.WpfToolkit
 
     private void OwnerDataGrid_LayoutUpdated(object? sender, EventArgs e)
     {
-
+      double width = OwnerDataGrid?.ActualWidth ?? 0;
+      Width = width > 20.0 ? width - 20.0 : width;
     }
 
     private void OwnerDataGrid_Loaded(object sender, RoutedEventArgs e)
