@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace Espamatica.WpfToolkit
 {
-  public class SummaryDataGrid : ScrollViewer
+  public class DataGridSummary : ScrollViewer
   {
     #region Attached dependency properties
     public readonly static DependencyProperty DoSummaryProperty = 
@@ -38,7 +38,7 @@ namespace Espamatica.WpfToolkit
     #endregion
 
     #region Dependency properties
-    public static readonly DependencyProperty OwnerDataGridProperty = DependencyProperty.Register(nameof(OwnerDataGrid), typeof(DataGrid), typeof(SummaryDataGrid), new PropertyMetadata(new PropertyChangedCallback(OnOwnerDataGridChanged)));
+    public static readonly DependencyProperty OwnerDataGridProperty = DependencyProperty.Register(nameof(OwnerDataGrid), typeof(DataGrid), typeof(DataGridSummary), new PropertyMetadata(new PropertyChangedCallback(OnOwnerDataGridChanged)));
 
     public DataGrid? OwnerDataGrid 
     { 
@@ -48,7 +48,7 @@ namespace Espamatica.WpfToolkit
 
     private static void OnOwnerDataGridChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      SummaryDataGrid summaryDataGrid = d as SummaryDataGrid ?? throw new InvalidCastException("The dependency object is not a SummaryDataGrid");
+      DataGridSummary summaryDataGrid = d as DataGridSummary ?? throw new InvalidCastException("The dependency object is not a SummaryDataGrid");
       summaryDataGrid.OnOwnerDataGridChanged(e);
     }
 
@@ -75,7 +75,7 @@ namespace Espamatica.WpfToolkit
     #endregion
 
     #region Constructors
-    public SummaryDataGrid()
+    public DataGridSummary()
     {
       HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
       VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
